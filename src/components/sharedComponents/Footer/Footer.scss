@@ -1,0 +1,35 @@
+.footerWrap{
+    // margin: 20px 35px;
+    position: relative;
+    z-index: 65;
+    height: 100%;
+    padding: 35px 25px;
+    background: #fe579d;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 3;
+    // &::after{
+    //     position: absolute;
+    //     content: '';
+    //     width: 100%;
+    //     height: 500%;
+    //     background-color: #fe579d;
+    //     top: 0;
+    //     left: 0;
+    //     z-index: 1;
+    //     transform: skewY(25deg);
+    // }
+
+        .nav-item{
+            padding: 0 0 0 20px;
+            font-size: 25px;
+            line-height: 1.5em;
+            .nav-link{
+                color: #000;
+                &.active{
+                    text-decoration: underline;
+                }
+            }
+        }
+}
