@@ -1,41 +1,36 @@
-import { a} from "../../actions/AudiencesActions/audiencesActions";
-import { ADD_CATEGORY, ADD_TEMPLATE_CATEGORY, DELETE_CATEGORY, DELETE_TEMPLATE_CATEGORY, GET_ALL_CATEGORIES } from "../../actions/TemplatesActions/templatesActions";
+import {ADD_ELEMENT_FOR_QUESTION} from '../../actions/QuestionsActions/questionActions'
 
 const initialState = {
     id: '1',
-    steps:[
-        id	            
-message	       
-user	          
-options	       
-validator	     
-trigger	       
-avatar	        
-delay	         
-end	           
-placeholder	   
-hideInput	     
-inputAttributes
-metadata	       
-    ]
+    templateId: null,
+    elements:[
+        {
+            id: '1',
+            type: 'message',
+            data: { 
+            label: 'Input Node',
+            firstMEssage: true,
+            endMEssage: false,
+            },
+            position: { x: 0, y: 0 },
+        },
+    ],
 }
 
 export const questionsTemplateReducer = (state = initialState, {type, payload}) => {
     switch (type) {
-        case GET_ALL_CATEGORIES:
-            return {...state};
-        case ADD_CATEGORY:
-            return {...state, categories:[...state.categories, payload]};
-        case DELETE_CATEGORY:
-            return {...state, categories:state.categories.filter(category => category.id !== payload)};
-        case ADD_TEMPLATE_CATEGORY:
-            const categoryById = state.categories.find(category => category.id === payload.categoryId)
-            const categories = state.categories.filter(category => category.id !==payload.categoryId)
-            return {...state, categories: [...categories, {...categoryById, templates: categoryById.templates.concat(payload.template)}]};
-        case DELETE_TEMPLATE_CATEGORY:
-            const delCategoryById = state.categories.find(category => category.id === payload.categoryId)
-            const delCategories = state.categories.filter(category => category.id !==payload.categoryId)
-            return {...state, categories: [...delCategories, {...delCategoryById, templates: delCategoryById.templates.filter(template => template.id !== payload.templateId)}]};
+        // case GET_ALL_CATEGORIES:
+        //     return {...state};
+        // case ADD_CATEGORY:
+        //     return {...state, categories:[...state.categories, payload]};
+        // case DELETE_CATEGORY:
+        //     return {...state, categories:state.categories.filter(category => category.id !== payload)};
+        case ADD_ELEMENT_FOR_QUESTION:
+            return {...state, elements: [...state.elements, payload]};
+        // case DELETE_TEMPLATE_CATEGORY:
+        //     const delCategoryById = state.categories.find(category => category.id === payload.categoryId)
+        //     const delCategories = state.categories.filter(category => category.id !==payload.categoryId)
+        //     return {...state, categories: [...delCategories, {...delCategoryById, templates: delCategoryById.templates.filter(template => template.id !== payload.templateId)}]};
         default:
             return state;
     }

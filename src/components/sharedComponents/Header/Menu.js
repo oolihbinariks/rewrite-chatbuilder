@@ -29,8 +29,8 @@ const menuItem =[
         url:SETTINGS_ROUTE
     },
 ]
-const Menu = props => {
-    const [activeItemMenu, setActiveItemMenu] = useState('1')
+const Menu = () => {
+    const [activeItemMenu, setActiveItemMenu] = useState(null)
     return (
         <ul className="menu"> 
             {

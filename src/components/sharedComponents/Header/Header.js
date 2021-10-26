@@ -12,14 +12,26 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { makeStyles } from '@material-ui/core';
 // import PropTypes from 'prop-types'
-const useStyle = makeStyles({
+const useStyle = makeStyles(theme => ({
     appBar:{
         backgroundColor: "black",
     },
     logo:{
         maxWidth: "200px",
     },
-})
+    menuIcon:{
+        
+        [theme.breakpoints.up('md')]:{
+            display: 'none',
+        },
+    },
+    menuResponsive:{
+        marginRight:theme.spacing(2),
+        [theme.breakpoints.down('sm')]:{
+            display: 'none',
+        },
+    }
+}))
 const Header = () => {
     const classes = useStyle()
     const isAuth = useSelector(state => getAuthToken(state))
@@ -45,10 +57,9 @@ const Header = () => {
                         <img src={Logo} alt = 'logo' className={classes.logo}/>
                     </IconButton>
                 </Link>
-                <Menu />
-                <IconButton edge="start" color="inherit" aria-label="menu">
-                    <MenuIcon />
-                </IconButton> 
+                <div className={classes.menuResponsive} >
+                    <Menu />
+                </div>
                 <ButtonCustom onClick={() => {
                     if (!isAuth) {
                         handleClick(LOGIN_ROUTE)    
@@ -59,6 +70,9 @@ const Header = () => {
                         variant='outlined'>
                         {(!isAuth && "Login") || ("Logout")}
                 </ButtonCustom>
+                <IconButton className={classes.menuIcon} edge="start" color="inherit" aria-label="menu">
+                    <MenuIcon />
+                </IconButton>
             </Toolbar>
         </AppBar>
     )

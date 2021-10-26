@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { getTemplateById } from '../../../../store/selectors/templatesSelectors';
 import FormAddTemplate from './FormAddTemplate';
-import { deleteCategorySagaAction, deleteTemplateCategorySagaAction } from '../../../../store/actions/TemplatesActions/templatesActionCreators';
+import { deleteTemplateCategorySagaAction } from '../../../../store/actions/TemplatesActions/templatesActionCreators';
 import FormModal from '../../../../components/sharedComponents/Modals/FormModal';
 
 
