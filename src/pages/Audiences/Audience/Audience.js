@@ -32,7 +32,6 @@ const Audience = ({history}) => {
     const classes = useStyles();
     let { audience: audienceId } = useParams();
     const audience = useSelector(state => getAudienceById(state.audiences, audienceId))
-    console.log('audience', audience);
     const handleClickAdd = (event) => {
         event.preventDefault();
         history.push(`${audienceId}/add`)

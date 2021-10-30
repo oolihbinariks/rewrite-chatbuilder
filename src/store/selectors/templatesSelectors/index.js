@@ -18,3 +18,6 @@ export const getTemplateCategoryById = (state, id, template) =>(
   //   getAudienceById,
   //   (audience ) =>audience,
   // );
+export const getStateHoveredElement = (state) => (state.hoveredElement)
+export const getStateSelectedDelElement = (state) => (state.selectedDelElement)
+export const getStateRFInstObj = (state) => (state.RFInstObj)

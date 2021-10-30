@@ -55,10 +55,6 @@ const useStyles = makeStyles((theme) => ({
     let { category: id, question } = useParams();
     const categoruById = useSelector(state => getTemplateById(state.templates, id))
     const templateById = useSelector(state => getTemplateCategoryById(state.templates, id, question))
-    console.log('category', id);
-    console.log('question', question);
-    console.log('categoruById', categoruById);
-    console.log('templateById', templateById);
     function handleClick(event, routeTo) {
         event.preventDefault();
         if (routeTo) {
@@ -74,7 +70,6 @@ const useStyles = makeStyles((theme) => ({
         <Breadcrumbs separator='>' className={classes.breadcrumbs} aria-label="breadcrumb">
             {pathnames.map((name, index, array) => {
                 const routeTo =`/${pathnames.slice(0, index + 1 ).join('/')}`;
-                console.log("index", index);
                 if (index === array.length - 1) {
                     return( 
                         <Link color="inherit"  className={`${classes.active} ${classes.breadcrumbItem}`} >

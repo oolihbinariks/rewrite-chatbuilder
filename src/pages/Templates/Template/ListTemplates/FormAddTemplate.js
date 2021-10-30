@@ -8,7 +8,6 @@ import { StyledInput } from '../../../../components/sharedComponents/Inputs/Inpu
 import * as yup from "yup";
 import { addTemplateCategorySagaAction } from '../../../../store/actions/TemplatesActions/templatesActionCreators';
 import { useParams } from 'react-router-dom';
-import { Category } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
     dialogAction:{
@@ -42,7 +41,6 @@ const FormAddTemplate = ({onClose}) => {
       });
     const dispatch = useDispatch()
     const saveData = data => {
-        console.log('data', data);
         dispatch( addTemplateCategorySagaAction({categoryId: category, template: data}))
         reset()
         onClose()
@@ -68,9 +66,9 @@ const FormAddTemplate = ({onClose}) => {
                             />
 
                     </div>
-                        <DialogContentText>
-                            Category Icon
-                        </DialogContentText>
+                    <DialogContentText>
+                        Category Icon
+                    </DialogContentText>
                     <div>
                     <StyledInput
                         variant='outlined' 

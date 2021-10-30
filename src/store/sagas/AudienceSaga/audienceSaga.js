@@ -3,7 +3,7 @@ import { addAudienceAction, addUsersAudienceAction, deleteAudienceAction, delete
 import { ADD_AUDIENCE_SAGA, ADD_USERS_AUDIENCE_SAGA, DELETE_AUDIENCE_SAGA, DELETE_USERS_AUDIENCE_SAGA } from "../../actions/AudiencesActions/audiencesActions";
 
 function* addAudiencesWorker({payload: {titleAudience}}){
-    console.log("audience", titleAudience);
+    
     const newAudience = {
         id: Math.round(Math.random() * Math.random() * 100 + 121).toString(),
         name: titleAudience,
@@ -32,7 +32,7 @@ function* addAudiencesWorker({payload: {titleAudience}}){
 }
 
 function* deleteAudiencesWorker({payload: audienceId}){
-    console.log("delete audienceId", audienceId);
+    
     try {
         // const {audienceResponce} = yield call(apiAuthorize, '/login', {login, password})
         yield put(deleteAudienceAction(audienceId))
@@ -58,10 +58,10 @@ function* deleteAudiencesWorker({payload: audienceId}){
 function* addUsersAudienceWorker({payload: {audienceId, users}}){
     try {
 
-        console.log('addUsersAudienceAction', users);
+        
         yield put(addUsersAudienceAction({audienceId, users}))
     } catch (error) {
-        console.log('error.status', error.status);
+        
         let message;
         switch (error.status) {
             case 500:
@@ -81,7 +81,7 @@ function* addUsersAudienceWorker({payload: {audienceId, users}}){
 }
 
 function* deleteUserAudienceWorker({payload: {audienceId, userId}}){
-    console.log("delete userId", audienceId);
+    
     try {
         // const {audienceResponce} = yield call(apiAuthorize, '/login', {login, password})
         yield put(deleteUserAudienceAction({audienceId, userId}))

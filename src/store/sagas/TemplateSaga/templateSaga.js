@@ -1,11 +1,11 @@
 import { put, call, takeLatest, all, takeEvery } from "redux-saga/effects";
-import { addCategoryAction, addTemplateCategoryAction, deleteCategoryAction, deleteTemplateCategoryAction } from "../../actions/TemplatesActions/templatesActionCreators";
-import { ADD_CATEGORY_SAGA, ADD_TEMPLATE_CATEGORY_SAGA, DELETE_CATEGORY_SAGA, DELETE_TEMPLATE_CATEGORY_SAGA } from "../../actions/TemplatesActions/templatesActions";
+import { addCategoryAction, addElementForQuestionAction, addTemplateCategoryAction, deleteCategoryAction, deleteElementForQuestionAction, deleteTemplateCategoryAction } from "../../actions/TemplatesActions/templatesActionCreators";
+import { ADD_CATEGORY_SAGA, ADD_ELEMENT_FOR_QUESTION_SAGA, ADD_TEMPLATE_CATEGORY_SAGA, DELETE_CATEGORY_SAGA, DELETE_ELEMENT_FOR_QUESTION_SAGA, DELETE_TEMPLATE_CATEGORY_SAGA } from "../../actions/TemplatesActions/templatesActions";
+import { v4 as uuidv4 } from 'uuid';
 
 function* addCategoryWorker({payload: {categoryName, icon}}){
-    console.log("categoryName", categoryName);
     const newCategory = {
-        id: Math.round(Math.random() * Math.random() * 100 + 121).toString(),
+        id: uuidv4(),
         name: categoryName,
         img: icon,
         templates:[]
@@ -33,7 +33,6 @@ function* addCategoryWorker({payload: {categoryName, icon}}){
 }
 
 function* deleteCategoryWorker({payload: categoryId}){
-    console.log("delete audienceId", categoryId);
     try {
         // const {audienceResponce} = yield call(apiAuthorize, '/login', {login, password})
         yield put(deleteCategoryAction(categoryId))
@@ -58,17 +57,21 @@ function* deleteCategoryWorker({payload: categoryId}){
 
 function* addTemplateCategoryWorker({payload: {categoryId, template}}){
     const newTemplate = {
-        id: Math.round(Math.random() * Math.random() * 100 + 121).toString(),
+        id: uuidv4(),
         name: template.templateName,
         img: template.icon,
-        schema:{}
+        elements:[
+            {
+                id: uuidv4(),
+                number: 'N1',
+                type: 'start',
+                position: { x: 600, y: 0 },
+            },
+        ],
     }
     try {
-
-        console.log('addTemplateCategoryAction', template);
         yield put(addTemplateCategoryAction({categoryId, template: newTemplate}))
     } catch (error) {
-        console.log('error.status', error.status);
         let message;
         switch (error.status) {
             case 500:
@@ -88,7 +91,6 @@ function* addTemplateCategoryWorker({payload: {categoryId, template}}){
 }
 
 function* deleteTemplateCategoryWorker({payload: {categoryId, templateId}}){
-    console.log("delete templateId", categoryId);
     try {
         // const {categoryResponce} = yield call(apiAuthorize, '/login', {login, password})
         yield put(deleteTemplateCategoryAction({categoryId, templateId}))
@@ -111,12 +113,54 @@ function* deleteTemplateCategoryWorker({payload: {categoryId, templateId}}){
     }
 }
 
+function* addElementsForTemplatesWorker({payload: {categoryId, templateId, elements}}){
+    try {
+        yield put(addElementForQuestionAction({categoryId, templateId, elements}))
+    } catch (error) {
+        let message;
+        switch (error.status) {
+            case 500:
+                message = "Internal Server Error";
+                break;
+            case 401:
+                message = "Invalid Credentials";
+                break;
+        
+            default:
+                message = "Something went wrong";
+                break;
+        }
+    }
+}
+
+function* deleteElementsForTemplatesWorker({payload: {categoryId, templateId, elementId}}){
+    try {
+        yield put(deleteElementForQuestionAction({categoryId, templateId, elementId}))
+    } catch (error) {
+        let message;
+        switch (error.status) {
+            case 500:
+                message = "Internal Server Error";
+                break;
+            case 401:
+                message = "Invalid Credentials";
+                break;
+        
+            default:
+                message = "Something went wrong";
+                break;
+        }
+    }
+}
+
 function* templatesSaga() {
    yield all([
        yield takeLatest(ADD_CATEGORY_SAGA, addCategoryWorker),
        yield takeLatest(DELETE_CATEGORY_SAGA, deleteCategoryWorker),
        yield takeEvery(ADD_TEMPLATE_CATEGORY_SAGA, addTemplateCategoryWorker),
        yield takeEvery(DELETE_TEMPLATE_CATEGORY_SAGA, deleteTemplateCategoryWorker),
+       yield takeEvery(ADD_ELEMENT_FOR_QUESTION_SAGA, addElementsForTemplatesWorker),
+       yield takeEvery(DELETE_ELEMENT_FOR_QUESTION_SAGA, deleteElementsForTemplatesWorker),
     ])
 }
 

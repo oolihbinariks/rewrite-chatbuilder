@@ -39,7 +39,6 @@ const FormAddCCategory = ({onClose}) => {
       });
     const dispatch = useDispatch()
     const saveData = data => {
-        console.log('data', data);
         dispatch( addCategorySagaAction(data))
         reset()
         onClose()

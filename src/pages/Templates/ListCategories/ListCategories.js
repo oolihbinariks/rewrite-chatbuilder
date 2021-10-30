@@ -89,7 +89,6 @@ const ListCategories = () => {
 
     const dispatch = useDispatch()
     const categories = useSelector(state => getCategoriesAll(state.templates))
-console.log('categories', categories);
     const handlerDeleteCategory = (id) => {
       dispatch(deleteCategorySagaAction(id))
     }

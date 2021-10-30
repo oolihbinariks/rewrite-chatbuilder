@@ -89,7 +89,6 @@ const ListCategories = () => {
 
     const dispatch = useDispatch()
     const categoryById = useSelector(state => getTemplateById(state.templates, categoryId))
-    console.log('categoryById', categoryById);
     const handlerDeleteCategory = (templateId) => {
       dispatch(deleteTemplateCategorySagaAction({categoryId, templateId}))
     }

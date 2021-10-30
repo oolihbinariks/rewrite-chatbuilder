@@ -1,11 +1,16 @@
-import React from 'react'
-import ReactFlow, { addEdge, removeElements } from 'react-flow-renderer';
-import { Checkbox, Fab, FormControlLabel, FormGroup, Grid, makeStyles, Paper, Typography } from '@material-ui/core'
+import React, { useCallback, useEffect, useState } from 'react'
+import ReactFlow, { addEdge, ControlButton, Controls, MiniMap, ReactFlowProvider, removeElements } from 'react-flow-renderer';
+import { Checkbox, Chip, Fab, FormControlLabel, FormGroup, Grid, makeStyles, Paper, Typography } from '@material-ui/core'
 import BreadcrumbsTemplates from '../../../../components/sharedComponents/Breadcrumbs/BreadcrumbsTemplates'
 import { StyledInput } from '../../../../components/sharedComponents/Inputs/InputCustom';
-import { MessageNode, StartNode } from '../../../../store/actions/QuestionsActions/NodeTypes/NodeTypes';
+import { MessageNode, StartNode } from './NodeTypes';
 import AddIcon from '@material-ui/icons/Add';
-// import { setElements } from 'react-flow-renderer/dist/store/actions';
+import FormModal from '../../../../components/sharedComponents/Modals/FormModal';
+import FormAddNodeDialog from './FormAddNodeDialog';
+import { useParams } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
+import { getStateSelectedDelElement, getTemplateById, getTemplateCategoryById } from '../../../../store/selectors/templatesSelectors';
+import { addHoveredElementAction, deleteHoveredElementAction, setRFIObjectAction, updateSetElementsForQuestionAction } from '../../../../store/actions/TemplatesActions/templatesActionCreators';
 const useStyles = makeStyles((theme) => ({
     headerPage: {
       marginBottom:theme.spacing(3),
@@ -34,52 +39,10 @@ const useStyles = makeStyles((theme) => ({
     rightManageQuestion:{
       height:'80vh'
     },
+    fab:{
+      marginLeft:theme.spacing(2)
+    }
   }));
-
-
-
-const responseType = [
-  {
-    value:'mesage',
-    label:'Message'
-  },
-  {
-    value:'inputText',
-    label:'Text Input'
-  },
-  {
-    value:'singleChoice',
-    label:'Single Choice'
-  },
-  {
-    value:'condition',
-    label:'Condition step'
-  },
-]
-const initialState = [
-  {
-    id: '1',
-    type: 'start', // input node
-    position: { x: 600, y: 0 },
-  },
-  {
-    id: '2',
-    type: 'message', // input node
-    data: { 
-      label: 'Input Node',
-    },
-    position: { x: 540, y: 200 },
-  },
-  {
-    id: '3',
-    type: 'message', // input node
-    data: { 
-      label: 'Input Node',
-    },
-    position: { x: 540, y: 400 },
-  },
-  
-];
 
 
 
@@ -90,17 +53,52 @@ const nodeTypes = {
 
 const Question = () => {
     const classes = useStyles();
-    const [elements, setElements] = React.useState(initialState);
-    // const handleChange = (event) => {
-    //   setSelectedValue(event.target.value);
-    // };
+    let {category, question } = useParams();
+    const templateById = useSelector(state => getTemplateCategoryById(state.templates, category, question))
+    const [elements, setElements] = useState([]);
+    const [reactFlowInstance, setReactFlowInstance] = useState(null);
+    const onLoad = (_reactFlowInstance) =>{
+      setReactFlowInstance(_reactFlowInstance);
+    }
+    const flow = reactFlowInstance?.toObject() || null;
+    // console.log("question onLoad instance object", reactFlowInstance?.toObject());
+    // const [selectedDelElement, setSelectedDelElement] = useState(null)
+    // const delSelectedElement = useSelector(state => getStateSelectedDelElement(state.templates))
+    // useEffect(() => {
+    //   setSelectedDelElement(delSelectedElement)
+    // }, [delSelectedElement])
+    const dispatch = useDispatch()
     const onConnect = (params) => {
       setElements((els)=> addEdge(params, els))
+      // dispatch(updateSetElementsForQuestionAction({categoryId: category, templateId:question, elements:elements}))
     }
-    const onElementsRemove = (elementsToRemove) => {
-      setElements((els)=> removeElements(elementsToRemove, els))
+    const [currentObjectRF, setcCurrentObjectRF] = useState(null)
+    const onElementsRemove = (delSelectedElement) => {
+      setElements((els)=> removeElements(delSelectedElement, els))
+      // dispatch(updateSetElementsForQuestionAction({categoryId: category, templateId:question, elements:elements}))
     }
+    useEffect(() => {
+      setElements(templateById.elements)
+      
+    },[templateById, reactFlowInstance])
+    useEffect(() => {
+      dispatch(setRFIObjectAction(reactFlowInstance?.toObject()))
+      // reactFlowInstance?.toObject().elements;
+    },[onLoad])
+    // },[onLoad, dispatch, reactFlowInstance])
+    // useEffect(() => {
+    //   saveDialog()
+    // }, [onConnect])
+   
+    const onNodeMouseEnter = (event, node) =>{
+      dispatch(addHoveredElementAction(node.id))
+    }
+    const onNodeMouseLeave = (event, node)=> {
+      dispatch(deleteHoveredElementAction())
+    }
+    
     return (
+      <ReactFlowProvider>
         <div className = "wrapper">
           <div className={classes.headerPage}>
             <BreadcrumbsTemplates />
@@ -109,65 +107,55 @@ const Question = () => {
             </Typography>
           </div>
           <Grid container className={classes.manageQuestion}>
-              <Grid item xs={12} sm={3} className={classes.leftManageQuestion}>
-                <Paper className={classes.schema} >
-                    Add step dialog <Fab color="primary" aria-label="add">
-  <AddIcon />
-</Fab>
-                    <form>
-                      <div className={classes.inputsWrapper}>
-                        <div>
-                          <Typography>
-                            Choose type of response
-                          </Typography>
-                          <StyledInput 
-                          className={classes.inputItem}
-                            type='text'
-                            variant='outlined' 
-                            size='small'
-                            SelectProps={{
-                              native: true,
-                            }}
-                            select
-                          >
-                              {responseType.map(response=>(
-                                <option key={response.value} value={response.value} >
-                                  {response.label}
-                                </option>
-                              ))}
-                          </StyledInput>
-                        </div>
-                        <div>
-                        <FormGroup aria-label="position" row>
-                          <FormControlLabel
-                            value="endAction"
-                            control={<Checkbox color="primary" />}
-                            label="This is last interaction"
-                            labelPlacement="end"
-                          />
-                          <FormControlLabel
-                            value="endAction"
-                            control={<Checkbox color="primary" />}
-                            label="Send response to email"
-                            labelPlacement="end"
-                          />
-                        </FormGroup>
-                        </div>
-                      </div>
-                    </form>
-                </Paper>
-              </Grid>
               <Grid item xs={12} sm={9} className={classes.rightManageQuestion}>
                 <ReactFlow 
                   nodeTypes={nodeTypes} 
                   onConnect={onConnect}
                   onElementsRemove={onElementsRemove}
+                  deleteKeyCode={46}
                   className = {classes.reactFlow}
-                  elements={elements} 
-                />
+                  elements={elements}
+                  onNodeMouseEnter = {onNodeMouseEnter}
+                  onNodeMouseLeave = {onNodeMouseLeave}
+                  onLoad={onLoad}
+                >
+                  {/* <Controls />   */}
+                  <Controls>
+                    <ControlButton onClick={() => console.log('action')}>
+                     B
+                    </ControlButton>
+                    <ControlButton onClick={() => console.log('another action')}>
+                      A 
+                    </ControlButton>
+                  </Controls>
+                  <MiniMap
+                    nodeColor={(node) => {
+                      switch (node.type) {
+                        case 'input':
+                          return 'red';
+                        case 'default':
+                          return '#00ff00';
+                        case 'output':
+                          return 'rgb(0,0,255)';
+                        default:
+                          return '#eee';
+                      }
+                    }}
+                    nodeStrokeWidth={3}
+                  />
+                </ReactFlow>
+              </Grid>
+              <Grid item xs={12} sm={3} className={classes.leftManageQuestion}>
+                <Paper className={classes.schema} >
+                    {/* <Fab className={classes.fab} onClick={handleClickOpen} color="primary" aria-label="add">
+                      <AddIcon />
+                    </Fab> */}
+                      <FormAddNodeDialog currentObjectRF={currentObjectRF} elements={elements}/>
+                </Paper>
               </Grid>
           </Grid>
       </div>
+    </ReactFlowProvider>
     )
 }
 
