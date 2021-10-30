@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { StyledInput } from '../../../../components/sharedComponents/Inputs/InputCustom';
 import { Avatar, Chip, Fab, IconButton, makeStyles } from '@material-ui/core';
 import Add from '@material-ui/icons/Add';
-import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 const useStyles = makeStyles((theme) => ({
     fab:{
@@ -122,17 +121,12 @@ export const AddOptions = ({options, setOptions}) =>{
                         helperText = {(errorTextEditOpt) ? errorTextEditOpt : ''}
                         fullWidth
                     />
-                    {/* <Fab size='small' className={classes.fab} aria-label="edit" onClick={(e)=>(acceptEditOptionHandler(e, option.id))}>
-                        <EditIcon />
-                    </Fab> */}
-                    
                 </div>
             )
         }else{
             return(
                 <div className={classes.editOptionBlock} key = {option.id}>
                     <Chip 
-                        // size='small' 
                         className={classes.optionEdit} 
                         label={option.optionText} 
                         deleteIcon={
@@ -147,9 +141,6 @@ export const AddOptions = ({options, setOptions}) =>{
                         onClick={()=>editTurn(option)}
                         onDelete={()=>deleteOption(option.id)}
                     /> 
-                    {/* <Fab className={classes.fab} size='small' onClick={()=>editTurn(option)}>
-                        <EditIcon />
-                    </Fab> */}
                 </div>
             )
         }

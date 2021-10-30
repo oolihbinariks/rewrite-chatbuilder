@@ -1,16 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import ReactFlow, { addEdge, ControlButton, Controls, MiniMap, ReactFlowProvider, removeElements } from 'react-flow-renderer';
-import { Checkbox, Chip, Fab, FormControlLabel, FormGroup, Grid, makeStyles, Paper, Typography } from '@material-ui/core'
+import { Grid, makeStyles, Paper, Typography } from '@material-ui/core'
 import BreadcrumbsTemplates from '../../../../components/sharedComponents/Breadcrumbs/BreadcrumbsTemplates'
-import { StyledInput } from '../../../../components/sharedComponents/Inputs/InputCustom';
 import { MessageNode, StartNode } from './NodeTypes';
-import AddIcon from '@material-ui/icons/Add';
-import FormModal from '../../../../components/sharedComponents/Modals/FormModal';
 import FormAddNodeDialog from './FormAddNodeDialog';
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
-import { getStateSelectedDelElement, getTemplateById, getTemplateCategoryById } from '../../../../store/selectors/templatesSelectors';
-import { addHoveredElementAction, deleteHoveredElementAction, setRFIObjectAction, updateSetElementsForQuestionAction } from '../../../../store/actions/TemplatesActions/templatesActionCreators';
+import { getTemplateCategoryById } from '../../../../store/selectors/templatesSelectors';
+import { addHoveredElementAction, deleteHoveredElementAction, setRFIObjectAction } from '../../../../store/actions/TemplatesActions/templatesActionCreators';
 const useStyles = makeStyles((theme) => ({
     headerPage: {
       marginBottom:theme.spacing(3),
@@ -57,25 +54,15 @@ const Question = () => {
     const templateById = useSelector(state => getTemplateCategoryById(state.templates, category, question))
     const [elements, setElements] = useState([]);
     const [reactFlowInstance, setReactFlowInstance] = useState(null);
+    const dispatch = useDispatch()
     const onLoad = (_reactFlowInstance) =>{
       setReactFlowInstance(_reactFlowInstance);
     }
-    const flow = reactFlowInstance?.toObject() || null;
-    // console.log("question onLoad instance object", reactFlowInstance?.toObject());
-    // const [selectedDelElement, setSelectedDelElement] = useState(null)
-    // const delSelectedElement = useSelector(state => getStateSelectedDelElement(state.templates))
-    // useEffect(() => {
-    //   setSelectedDelElement(delSelectedElement)
-    // }, [delSelectedElement])
-    const dispatch = useDispatch()
     const onConnect = (params) => {
       setElements((els)=> addEdge(params, els))
-      // dispatch(updateSetElementsForQuestionAction({categoryId: category, templateId:question, elements:elements}))
     }
-    const [currentObjectRF, setcCurrentObjectRF] = useState(null)
     const onElementsRemove = (delSelectedElement) => {
       setElements((els)=> removeElements(delSelectedElement, els))
-      // dispatch(updateSetElementsForQuestionAction({categoryId: category, templateId:question, elements:elements}))
     }
     useEffect(() => {
       setElements(templateById.elements)
@@ -83,12 +70,7 @@ const Question = () => {
     },[templateById, reactFlowInstance])
     useEffect(() => {
       dispatch(setRFIObjectAction(reactFlowInstance?.toObject()))
-      // reactFlowInstance?.toObject().elements;
-    },[onLoad])
-    // },[onLoad, dispatch, reactFlowInstance])
-    // useEffect(() => {
-    //   saveDialog()
-    // }, [onConnect])
+    },[dispatch, onLoad, reactFlowInstance])
    
     const onNodeMouseEnter = (event, node) =>{
       dispatch(addHoveredElementAction(node.id))
@@ -119,7 +101,6 @@ const Question = () => {
                   onNodeMouseLeave = {onNodeMouseLeave}
                   onLoad={onLoad}
                 >
-                  {/* <Controls />   */}
                   <Controls>
                     <ControlButton onClick={() => console.log('action')}>
                      B
@@ -147,10 +128,7 @@ const Question = () => {
               </Grid>
               <Grid item xs={12} sm={3} className={classes.leftManageQuestion}>
                 <Paper className={classes.schema} >
-                    {/* <Fab className={classes.fab} onClick={handleClickOpen} color="primary" aria-label="add">
-                      <AddIcon />
-                    </Fab> */}
-                      <FormAddNodeDialog currentObjectRF={currentObjectRF} elements={elements}/>
+                      <FormAddNodeDialog elements={elements}/>
                 </Paper>
               </Grid>
           </Grid>

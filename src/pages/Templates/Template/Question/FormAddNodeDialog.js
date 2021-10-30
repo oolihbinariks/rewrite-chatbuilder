@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { yupResolver } from '@hookform/resolvers/yup';
 import { DialogActions, DialogContent, DialogContentText, DialogTitle, makeStyles, MenuItem } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ButtonCustom } from '../../../../components/sharedComponents/Buttons/ButtonOutlined';
 import { StyledInput } from '../../../../components/sharedComponents/Inputs/InputCustom';
 import * as yup from "yup";
-import { addElementForQuestionSagaAction, addTemplateCategorySagaAction, updateSetElementsForQuestionAction } from '../../../../store/actions/TemplatesActions/templatesActionCreators';
+import { updateSetElementsForQuestionAction } from '../../../../store/actions/TemplatesActions/templatesActionCreators';
 import { useParams } from 'react-router-dom';
 import { AddOptions } from './AddOptions';
 import { getStateRFInstObj, getTemplateById } from '../../../../store/selectors/templatesSelectors';
@@ -59,9 +59,6 @@ const FormAddNodeDialog = ({elements, currentObjectRF}) => {
     const templateById = useSelector(state => getTemplateById(state.templates, category))
     const RFInstObj = useSelector(state => getStateRFInstObj(state.templates))
     console.log("Form RFInstObj from redux:", RFInstObj);
-// useEffect(() => {
-//     // dispatch(updateSetElementsForQuestionAction({categoryId: category, templateId:question, elements:RFInstObj?.elements}))
-// }, [RFInstObj])
 
     const questionById = templateById.templates.find(template=> template.id === question)
     const { register, handleSubmit, reset, watch, formState: { errors } } = useForm({
@@ -82,7 +79,6 @@ const FormAddNodeDialog = ({elements, currentObjectRF}) => {
             }
         }
         dispatch(updateSetElementsForQuestionAction({categoryId: category, templateId:question, elements:[...RFInstObj.elements, newNode]}))
-        // dispatch(addElementForQuestionSagaAction({categoryId: category, templateId:question, elements:newNode}))
         console.log('data', data);
         reset({
             node: 'node',
@@ -147,7 +143,6 @@ const FormAddNodeDialog = ({elements, currentObjectRF}) => {
                         <AddOptions options={options} setOptions={setOptions} />}
                     </div>
                     <DialogActions className={classes.dialogAction}>
-                        {/* <ButtonCustom onClick={()=> reset()} variant='contained' size='small' color="primary"> */}
                         <ButtonCustom
                             onClick={()=>{
                                     reset({

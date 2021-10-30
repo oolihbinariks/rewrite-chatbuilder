@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getStateHoveredElement, getStateRFInstObj } from "../../../../store/selectors/templatesSelectors";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { deleteElementForQuestionSagaAction, updateSetElementsForQuestionAction } from "../../../../store/actions/TemplatesActions/templatesActionCreators";
+import { updateSetElementsForQuestionAction } from "../../../../store/actions/TemplatesActions/templatesActionCreators";
 const useStyles = makeStyles((theme) => ({
     handleStyle: {
         width:'12px',
@@ -51,11 +51,8 @@ const useStyles = makeStyles((theme) => ({
       },
       textWrapper:{
         maxHeight:'60px',
-        // height:'60px',
         overflow:'hidden',
-        // overflowY: 'scroll',
         textOverflow: 'ellipsis',
-        // whiteSpace: 'nowrap',
         display: '-webkit-box',
         boxOrient: 'vertical',
         lineClamp: 3,
@@ -108,7 +105,6 @@ export const MessageNode = ({ id, number, data }) => {
           return true
         }
       )}))
-      // dispatch(deleteElementForQuestionSagaAction({categoryId: category, templateId:question, elementId:id}))
     }
     const [hoveredElementId, setHoveredElementId] = useState(null)
     const hoveredElement = useSelector(state => getStateHoveredElement(state.templates))
