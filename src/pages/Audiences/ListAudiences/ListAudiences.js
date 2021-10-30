@@ -60,7 +60,7 @@ const ListAudiences = () => {
         <div className={classes.demo}>
             <List dense={dense}>
             {audiences.map((audience) => 
-                <Paper className={classes.listItem} elevation={5}>
+                <Paper key={audience.id} className={classes.listItem} elevation={5}>
                     <ListItem>
                         <ListAudienceInfo audience={audience} />
                         <ListItemSecondaryAction>

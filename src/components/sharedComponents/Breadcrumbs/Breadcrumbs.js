@@ -73,13 +73,13 @@ const useStyles = makeStyles((theme) => ({
                 const routeTo =`/${pathnames.slice(0, index + 1 ).join('/')}`;
                 if (index === array.length - 1) {
                     return( 
-                        <Link color="inherit"  className={`${classes.active} ${classes.breadcrumbItem}`} >
+                        <Link key={`${name}_${index}`} color="inherit"  className={`${classes.active} ${classes.breadcrumbItem}`} >
                             { (name==="audience") ? <ListIcon className={classes.icon}/> : (name==="add" ) ? <PersonAddIcon className={classes.icon} /> : (name===audienceById.id ) ? <GroupIcon className={classes.icon} /> : ''} 
                             {name===audienceById.id ? audienceById.name : name}
                         </Link>)
                 } else {
                     return (
-                        <Link color="inherit" onClick={(e)=> (handleClick(e, routeTo))} className={`${classes.breadcrumbItem}`} >
+                        <Link key={`${name}_${index}`} color="inherit" onClick={(e)=> (handleClick(e, routeTo))} className={`${classes.breadcrumbItem}`} >
                              { (name==="audience") ? <ListIcon className={classes.icon}/> : (name==="add" ) ? <PersonAddIcon className={classes.icon} /> : (name===audienceById.id ) ? <GroupIcon className={classes.icon} /> : ''} 
                              {name===audienceById.id ? audienceById.name : name}
                         </Link>

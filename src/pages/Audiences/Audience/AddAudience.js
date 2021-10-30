@@ -118,7 +118,7 @@ const AddAudience = () => {
                 <form onSubmit = {handleSubmit(saveData)} noValidate autoComplete='off'>
                    
                     {rowUser.map((row, index)=>(
-                     <div className={classes.inputsSection}>
+                     <div key={row.id} className={classes.inputsSection}>
                         <div className = {`${classes.wrapperInputs} rowSection`}>
                             <StyledInput
                                 fullWidth 

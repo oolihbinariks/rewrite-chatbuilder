@@ -106,7 +106,7 @@ export const AddOptions = ({options, setOptions}) =>{
     const optionsSet = (options && options.length>0) ? options.map(option => {
         if (edit && edit?.id === option.id) {
             return(
-                <div className={classes.selectBlock}>
+                <div key={option.id} className={classes.selectBlock}>
                     <StyledInput
                         autoFocus
                         variant='outlined' 

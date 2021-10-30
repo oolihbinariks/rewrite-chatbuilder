@@ -140,7 +140,7 @@ export const MessageNode = ({ id, number, data }) => {
                 </p>
           </Paper>
           {data.options.map(option=>(
-            <Chip label={option.optionText} />
+            <Chip key={option.id} label={option.optionText} />
           ))}
         </div>
         {!data.first && <Handle

@@ -160,7 +160,7 @@ const Home = () => {
                             <Grid container>
                                 {
                                     cardImgArr.map((card) => (
-                                        <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                                        <Grid key={`${card.cardHead}_${card.cardImageSrc}`} item xs={12} sm={12} md={6} lg={6} xl={6}>
                                             <CardMediaItem cardHead ={card.cardHead} cardDescription={card.cardDescription} cardImageSrc={card.cardImageSrc} />
                                         </Grid>
                                     ))

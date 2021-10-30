@@ -56,7 +56,7 @@ const ListUsers = ({users}) => {
         <div className={classes.demo}>
             <List dense={dense}>
             {users.map((user) => 
-                <Paper className={classes.listItem} elevation={5}>
+                <Paper key={user.id} className={classes.listItem} elevation={5}>
                     <ListItem>
                         <ListUserInfo user={user} />
                         <ListItemSecondaryAction>

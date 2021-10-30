@@ -29,7 +29,7 @@ const Footer = props => {
                 {
                     menuItem.map((item) =>{
                         const clasItem = (item.id === activeItemMenu)? 'nav-link active' :'nav-link';
-                        return(<li className="nav-item">
+                        return(<li key={item.id} className="nav-item">
                             <Link onMouseEnter={(() =>setActiveItemMenu(item.id))} className={clasItem} aria-current="page" to={item.url}>{item.title}</Link>
                         </li>)
                     })

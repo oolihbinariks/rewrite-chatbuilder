@@ -36,7 +36,7 @@ const Menu = () => {
             {
                 menuItem.map((item) =>{
                     const classItem = (item.id === activeItemMenu)? 'nav-link active' :'nav-link';
-                    return(<li className="nav-item">
+                    return(<li key={item.id} className="nav-item">
                         <Link className={classItem} onClick={() => setActiveItemMenu(item.id)} aria-current="page" to={item.url}>{item.title}</Link>
                     </li>)
                 })

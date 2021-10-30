@@ -94,9 +94,9 @@ const ListCategories = () => {
     }
     return (
         <div className={classes.demo}>
-          <Grid container spacing='2' alignContent = 'center'>
+          <Grid container spacing={2}>
             {categories.map((category) => (
-            <Grid item xs='12' sm='6' md ='4' lg='3' alignContent='center' alignItems='center'>
+            <Grid key={category.id} item xs={12} sm={6} md ={4} lg={3}>
               <Card className={classes.root} variant="outlined">
                   <div className={classes.cardHeader}>
                     <Link className='nonAnchor' to={`/templates/${category.id}`}>
@@ -114,7 +114,7 @@ const ListCategories = () => {
               </Card>
             </Grid>)
             )}
-            <Grid item xs='12' sm='6' md ='4' lg='3' alignContent='center' alignItems='center'>
+            <Grid item xs={12} sm={6} md ={4} lg={3}>
               <Card className={`${classes.root} ${classes.addCategory}`} variant="outlined">
                 <div className={classes.addCategoryBtn}>
                   <Typography>
