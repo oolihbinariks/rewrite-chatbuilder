@@ -6,7 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { getStateHoveredElement, getStateRFInstObj } from "../../../../store/selectors/templatesSelectors";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { updateSetElementsForQuestionAction } from "../../../../store/actions/TemplatesActions/templatesActionCreators";
+import { selectDeleteElementForQuestionAction, updateSetElementsForQuestionAction } from "../../../../store/actions/TemplatesActions/templatesActionCreators";
+import FormModal from "../../../../components/sharedComponents/Modals/FormModal";
+import FormConfirmDel from "./ConfirmDel";
 const useStyles = makeStyles((theme) => ({
     handleStyle: {
         width:'12px',
@@ -88,8 +90,13 @@ export const StartNode = () => {
       </div>
     );
   };
-export const MessageNode = ({ id, number, data }) => {
+export const MessageNode = ({ id, data}) => {
+  console.log('NOde types data', data);
     const classes = useStyles();
+    const [open, setOpen] = useState(false);
+    const handleClose = () => {
+      setOpen(false);
+    };
     let {category, question } = useParams();
     const dispatch = useDispatch()
     const RFInstObj = useSelector(state => getStateRFInstObj(state.templates))
@@ -106,6 +113,11 @@ export const MessageNode = ({ id, number, data }) => {
         }
       )}))
     }
+    const updateElemHandler = ()=>{
+      dispatch(selectDeleteElementForQuestionAction(RFInstObj.elements.find(
+        (element)=>(element.id === id)
+      )))
+    }
     const [hoveredElementId, setHoveredElementId] = useState(null)
     const hoveredElement = useSelector(state => getStateHoveredElement(state.templates))
     useEffect(() => {
@@ -118,12 +130,12 @@ export const MessageNode = ({ id, number, data }) => {
         <div className={classes.nodeHeader}>
           {(hoveredElementId===id) &&
             <div className={classes.hoverOptions}>
-                            <IconButton edge="end" aria-label="delete">
+                            <IconButton  onClick={updateElemHandler} edge="end" aria-label="delete">
                                 <Avatar aria-label="recipe" className={classes.deleteIconPrimary}>
                                     <EditIcon />
                                 </Avatar>
                             </IconButton>
-                            <IconButton onClick={deleteElemHandler} edge="end" aria-label="delete">
+                            <IconButton onClick={()=>setOpen(true)} edge="end" aria-label="delete">
                                 <Avatar aria-label="recipe" className={classes.deleteIconPrimary}>
                                     <DeleteIcon />
                                 </Avatar>
@@ -131,7 +143,7 @@ export const MessageNode = ({ id, number, data }) => {
             </div>
             }
             <Chip size='small' label={data.nodeType} color="secondary" />
-            <Chip className={classes.numberStyle} size='small' label={id} color="primary" />
+            <Chip className={classes.numberStyle} size='small' label={data.number} color="primary" />
         </div>
         <div>
             <Paper>
@@ -156,6 +168,9 @@ export const MessageNode = ({ id, number, data }) => {
           id="b"
           className={classes.handleStyle}
         />
+        <FormModal open={open} onClose={handleClose}>
+            <FormConfirmDel onClose={handleClose} deleteElemHandler={deleteElemHandler}/>
+          </FormModal>
       </div>
     );
   };

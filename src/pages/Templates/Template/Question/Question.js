@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import ReactFlow, { addEdge, ControlButton, Controls, MiniMap, ReactFlowProvider, removeElements } from 'react-flow-renderer';
+import React, { useEffect, useState } from 'react'
+import ReactFlow, { addEdge, ControlButton, Controls, MiniMap, ReactFlowProvider } from 'react-flow-renderer';
 import { Grid, makeStyles, Paper, Typography } from '@material-ui/core'
 import BreadcrumbsTemplates from '../../../../components/sharedComponents/Breadcrumbs/BreadcrumbsTemplates'
 import { MessageNode, StartNode } from './NodeTypes';
@@ -61,9 +61,7 @@ const Question = () => {
     const onConnect = (params) => {
       setElements((els)=> addEdge(params, els))
     }
-    const onElementsRemove = (delSelectedElement) => {
-      setElements((els)=> removeElements(delSelectedElement, els))
-    }
+    
     useEffect(() => {
       setElements(templateById.elements)
       
@@ -93,8 +91,6 @@ const Question = () => {
                 <ReactFlow 
                   nodeTypes={nodeTypes} 
                   onConnect={onConnect}
-                  onElementsRemove={onElementsRemove}
-                  deleteKeyCode={46}
                   className = {classes.reactFlow}
                   elements={elements}
                   onNodeMouseEnter = {onNodeMouseEnter}

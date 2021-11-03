@@ -78,14 +78,14 @@ const useStyles = makeStyles((theme) => ({
 const ListCategories = () => {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
+    const handleClose = () => {
+      setOpen(false);
+    };
 
     const handleClickOpen = () => {
       setOpen(true);
     };
   
-    const handleClose = () => {
-      setOpen(false);
-    };
 
     const dispatch = useDispatch()
     const categories = useSelector(state => getCategoriesAll(state.templates))

@@ -197,9 +197,9 @@ export const templatesReducer = (state = initialState, {type, payload}) => {
             const delTemplates = delCategorById.templates.filter(template => template.id !==payload.templateId)
             return {...state, categories: [...delCategores, {...delCategorById, templates: [...delTemplates, {...delTemplateById, elements:delTemplateById.elements.filter(element=>element.id !== payload.elementId)}]}]};
         case SELECT_DELETE_ELEMENT_FOR_QUESTION:
-            const selectDelCategorById = state.categories.find(category => category.id === payload.categoryId)
-            const selectDelTemplateById = selectDelCategorById.templates.find(template => template.id === payload.templateId)
-            return {...state, selectedDelElement: selectDelTemplateById.elements.find(element=>element.id === payload.elementId)};
+            // const selectDelCategorById = state.categories.find(category => category.id === payload.categoryId)
+            // const selectDelTemplateById = selectDelCategorById.templates.find(template => template.id === payload.templateId)
+            return {...state, selectedDelElement: payload};
         case ADD_HOVERED_ELEMENT:
             return {...state, hoveredElement: payload}
         case DELETE_HOVERED_ELEMENT:

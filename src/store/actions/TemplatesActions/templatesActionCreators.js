@@ -63,9 +63,9 @@ export const deleteElementForQuestionAction = ({categoryId, templateId, elementI
     type: DELETE_ELEMENT_FOR_QUESTION,
     payload: {categoryId, templateId, elementId}
 })
-export const selectDeleteElementForQuestionAction = ({categoryId, templateId, elementId}) => ({
+export const selectDeleteElementForQuestionAction = ( element) => ({
     type: SELECT_DELETE_ELEMENT_FOR_QUESTION,
-    payload: {categoryId, templateId, elementId}
+    payload: element
 })
 export const setRFIObjectAction = (rfiObject) => ({
     type: SET_RFI_OBJ,

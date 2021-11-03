@@ -1,15 +1,15 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { yupResolver } from '@hookform/resolvers/yup';
 import { DialogActions, DialogContent, DialogContentText, DialogTitle, makeStyles, MenuItem } from '@material-ui/core';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { ButtonCustom } from '../../../../components/sharedComponents/Buttons/ButtonOutlined';
 import { StyledInput } from '../../../../components/sharedComponents/Inputs/InputCustom';
 import * as yup from "yup";
-import { updateSetElementsForQuestionAction } from '../../../../store/actions/TemplatesActions/templatesActionCreators';
+import { selectDeleteElementForQuestionAction, updateSetElementsForQuestionAction } from '../../../../store/actions/TemplatesActions/templatesActionCreators';
 import { useParams } from 'react-router-dom';
 import { AddOptions } from './AddOptions';
-import { getStateRFInstObj, getTemplateById } from '../../../../store/selectors/templatesSelectors';
+import { getStateRFInstObj, getStateSelectedDelElement, getTemplateById } from '../../../../store/selectors/templatesSelectors';
 import { v4 as uuidv4 } from 'uuid';
 
 const useStyles = makeStyles((theme) => ({
@@ -49,94 +49,174 @@ const responseType = [
       label:'Workflow control'
     },
 ]
+
 const nodeDialogValidateSchema = yup.object({
     textMessage: yup.string('Please enter text message').required('Please enter text message'),
     node: yup.string('Please select type of node ').required("Please select type of node").oneOf(responseType.map(node=>node.value !=='node' && node.value), "Please select a node")
 }).required();
+
 const FormAddNodeDialog = ({elements, currentObjectRF}) => {
     const classes = useStyles();
     let {category, question } = useParams();
     const templateById = useSelector(state => getTemplateById(state.templates, category))
     const RFInstObj = useSelector(state => getStateRFInstObj(state.templates))
     console.log("Form RFInstObj from redux:", RFInstObj);
-
-    const questionById = templateById.templates.find(template=> template.id === question)
-    const { register, handleSubmit, reset, watch, formState: { errors } } = useForm({
+    const [updatElemTrigger, setUpdatElemTrigger] = useState(false)
+    console.log("UPADATE  updatElemTrigger", updatElemTrigger);
+    const updateElement = useSelector(state => getStateSelectedDelElement(state.templates))
+    console.log("UPADATE  updateElement", updateElement);
+    useEffect(() => {
+        if (updateElement) {
+            setUpdatElemTrigger(true)
+        }else{
+            setUpdatElemTrigger(false)
+        }
+    }, [updateElement])
+    const preloadValues = {
+        node:responseType[0].value, 
+        textMessage:''
+    }
+    const { setValue, handleSubmit, reset, watch, control, formState: { errors } } = useForm({
+        mode:'all',
+        defaultValues: preloadValues,
         resolver: yupResolver(nodeDialogValidateSchema)
       });
+    const nodeValue = watch("node");
+    const handleNodeChange = e => setValue("node", e.target.value);
+    const textMessageValue = watch("textMessage");
+    useEffect(() => {
+        if (updateElement?.data?.nodeType==='singleChoice') {
+            setOptions(updateElement?.data?.options)
+        }
+        setValue("node",  updateElement?.data?.nodeType);
+        setValue("textMessage",  updateElement?.data?.message);
+    }, [updatElemTrigger, updateElement, setValue])
+    useEffect(() => {
+        if (updateElement?.data?.nodeType==='singleChoice') {
+            setOptions(updateElement?.data?.options)
+        }
+    }, [updatElemTrigger, updateElement])
+    const handletextMessageChange = e => setValue("textMessage", e.target.value);
+    const questionById = templateById.templates.find(template=> template.id === question)
     const [options, setOptions] = useState([])
     const dispatch = useDispatch()
     const saveData = data => {
         const newNode = {
             id: uuidv4(),
-            number:`N${questionById.elements.length+1}`,
             type:'message',
             position: { x: 600, y: 300 },
             data:{
+                number:`N${questionById.elements.length+1}`,
                 nodeType: data.node,
                 message: data.textMessage,
                 options: options
             }
         }
-        dispatch(updateSetElementsForQuestionAction({categoryId: category, templateId:question, elements:[...RFInstObj.elements, newNode]}))
-        console.log('data', data);
+        if (updatElemTrigger) {
+            dispatch(updateSetElementsForQuestionAction({categoryId: category, templateId:question, elements:RFInstObj.elements.map(element=>{
+                if (element.id === updateElement.id) {
+                    return({...updateElement,
+                        data:{
+                            ...updateElement.data, 
+                            nodeType: data.node, 
+                            message:data.textMessage,
+                            options: options
+                        }
+                    })
+                } else {
+                    return(element)
+                }
+            })}))
+        } else {
+            dispatch(updateSetElementsForQuestionAction({categoryId: category, templateId:question, elements:[...RFInstObj.elements, newNode]}))
+        }
         reset({
             node: 'node',
             textMessage:'',
         })
+        dispatch(selectDeleteElementForQuestionAction(null))
+        setUpdatElemTrigger(false)        
+
         setOptions([])
     };
     const saveDialog = ()=>{
         console.log("Questions ADD node elements: elements =>:", elements);
         dispatch(updateSetElementsForQuestionAction({categoryId: category, templateId:question, elements:RFInstObj.elements}))
     }
-
-    const nodeValue = watch("node");
+    
+const cancelHandler = ()=>{
+    reset({
+        node: 'node',
+        textMessage:'',
+    }) 
+    setUpdatElemTrigger(false)  
+    dispatch(selectDeleteElementForQuestionAction(null))
+}
     return (
             <form onSubmit = {handleSubmit(saveData)} autoComplete='off' >
-                <DialogTitle id="form-dialog-title">Add new step of dialog</DialogTitle>
+                <DialogTitle id="form-dialog-title">{updatElemTrigger ? 'Update node of step dialog' : 'Add new step of dialog'}</DialogTitle>
                 <DialogContent>
                     <div className={classes.selectBlock}>
                     <DialogContentText className={classes.dialogContentText}>
                         Type Node
                     </DialogContentText>
-                    <StyledInput
-                        variant='outlined' 
-                        label='Select Type of Node' 
-                        size='small'
-                        type='select' 
-                        id='node'
-                        select
-                        defaultValue={responseType[0].value}
-                        {...register('node')}
-                        error = {(errors?.node) ? true : false}
-                        helperText = {(errors?.node?.message) ? errors.node.message : ''}
-                        fullWidth
-                    >
-                        {responseType.map((option) => (
-                            <MenuItem key={option.value} value={option.value}>
-                                {option.label}
-                            </MenuItem>
-                        ))} 
-                    </StyledInput>
+                    <Controller 
+                        name='node'
+                        control={control}
+                        // defaultValue={responseType[0].value}
+                        render={
+                            ({onChange, onBlur, value}) => (             
+                                <StyledInput
+                                    // value={(!updatElemTrigger)? nodeValue: updateElement?.data?.nodeType}
+                                    value={nodeValue}
+                                    onChange={handleNodeChange}
+                                    variant='outlined' 
+                                    label='Select Type of Node' 
+                                    size='small'
+                                    type='select' 
+                                    select
+                                    error = {(errors?.node) ? true : false}
+                                    helperText = {(errors?.node?.message) ? errors.node.message : ''}
+                                    fullWidth
+                                >
+                                    {responseType.map((option) => (
+                                        <MenuItem key={option.value} value={option.value}>
+                                            {option.label}
+                                        </MenuItem>
+                                    ))} 
+                                </StyledInput>
+                            )
+                        }
+                    />
                     </div>
                     <DialogContentText>
                         Text Message
                     </DialogContentText>
                     <div>
-                    <StyledInput
-                            variant='outlined' 
-                            label='Enter Category name' 
-                            size='small'
-                            multiline
-                            rows={4}    
-                            type='text' 
-                            id='message'
-                            {...register('textMessage')}
-                            error = {(errors?.textMessage) ? true : false}
-                            helperText = {(errors?.textMessage?.message) ? errors.textMessage.message : ''}
-                            fullWidth 
-                            />                    
+                    <Controller 
+                        name='textMessage'
+                        control={control}
+                        // defaultValue=''
+                        render={
+                            ({onChange, onBlur, value}) => (             
+                                <StyledInput
+                                    // value={(!updatElemTrigger)? textMessageValue: updateElement?.data?.message}
+                                    value={textMessageValue}
+                                    onChange={handletextMessageChange}
+                                    variant='outlined' 
+                                    label='Enter Category name' 
+                                    size='small'
+                                    multiline
+                                    rows={4}    
+                                    type='text' 
+                                    error = {(errors?.textMessage) ? true : false}
+                                    helperText = {(errors?.textMessage?.message) ? errors.textMessage.message : ''}
+                                    fullWidth 
+                                />      
+                            )
+                        }
+                    />
+                                  
                     </div>
                     <div>
                         {nodeValue && nodeValue==='singleChoice' &&
@@ -144,13 +224,7 @@ const FormAddNodeDialog = ({elements, currentObjectRF}) => {
                     </div>
                     <DialogActions className={classes.dialogAction}>
                         <ButtonCustom
-                            onClick={()=>{
-                                    reset({
-                                        node: 'node',
-                                        textMessage:'',
-                                    })
-                                }
-                            } 
+                            onClick={cancelHandler} 
                             variant='contained' 
                             size='small' 
                             color="primary"
