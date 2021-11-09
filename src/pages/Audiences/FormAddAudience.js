@@ -15,12 +15,12 @@ const useStyles = makeStyles((theme) => ({
    }));
 
 const audienceValidateSchema = yup.object({
-    titleAudience: yup.string().required(),
+    titleAudience: yup.string().required("Audience title field is required!"),
 }).required();
 
 const FormAddAudience = ({onClose}) => {
     const classes = useStyles();
-    const { register, handleSubmit, watch, reset,formState: { errors } } = useForm({
+    const { register, handleSubmit, reset,formState: { errors } } = useForm({
         resolver: yupResolver(audienceValidateSchema)
       });
     const dispatch = useDispatch()
@@ -44,8 +44,8 @@ const FormAddAudience = ({onClose}) => {
                         type='text' 
                         id='titleAudience'
                         {...register('titleAudience')}
-                        error = {(errors?.titleAudience) ? true : false}
-                        helperText = {(errors?.titleAudience?.message) ? errors.titleAudience.message : ''}
+                        error = {!!errors?.titleAudience?.message}
+                        helperText = {errors?.titleAudience?.message}
                         fullWidth 
                         />
 

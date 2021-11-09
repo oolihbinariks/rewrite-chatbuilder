@@ -205,13 +205,11 @@ const cancelHandler = ()=>{
                                     onChange={handletextMessageChange}
                                     variant='outlined' 
                                     label='Enter Category name' 
-                                    size='small'
                                     multiline
                                     rows={4}    
                                     type='text' 
                                     error = {(errors?.textMessage) ? true : false}
                                     helperText = {(errors?.textMessage?.message) ? errors.textMessage.message : ''}
-                                    fullWidth 
                                 />      
                             )
                         }

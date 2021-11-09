@@ -52,15 +52,12 @@ const FormAddCCategory = ({onClose}) => {
                     </DialogContentText>
                     <div>
                         <StyledInput
-                            variant='outlined' 
                             label='Enter Category name' 
                             size='small'
                             type='text' 
-                            id='category'
                             {...register('categoryName')}
-                            error = {(errors?.categoryName) ? true : false}
-                            helperText = {(errors?.categoryName?.message) ? errors.categoryName.message : ''}
-                            fullWidth 
+                            error = {!!errors?.categoryName?.message}
+                            helperText = {errors?.categoryName?.message}
                             />
 
                     </div>
@@ -69,16 +66,13 @@ const FormAddCCategory = ({onClose}) => {
                         </DialogContentText>
                     <div>
                     <StyledInput
-                        variant='outlined' 
                         label='Select Your Category Icon' 
-                        size='small'
                         type='select' 
-                        id='icon'
                         select
                         {...register('icon')}
-                        error = {(errors?.icon) ? true : false}
-                        helperText = {(errors?.icon?.message) ? errors.icon.message : ''}
-                        fullWidth
+                        defaultValue={sortes[0].value}
+                        error = {!!errors?.icon?.message}
+                        helperText = {errors?.icon?.message}
                     >
                         {sortes.map((option) => (
                             <MenuItem key={option.value} value={option.value}>

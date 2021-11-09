@@ -1,9 +1,7 @@
-import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
+import React, { forwardRef } from 'react';
+import {withStyles, TextField} from '@material-ui/core';
 
-
-export const StyledInput = withStyles({
+const Input = withStyles({
     root: {
         background:'#fff',
         borderRadius:'30px',
@@ -19,9 +17,21 @@ export const StyledInput = withStyles({
                 borderColor:'#ccc'
             },
             '& .MuiOutlinedInput-input':{
-                // padding:'10px 14px'
+                // padding:'10px 15px'
             }, 
         },
     },
-  })(TextField);
-  
+})(TextField);
+
+export const StyledInput = forwardRef((props, ref)=>{
+    return(
+        <Input 
+            variant='outlined' 
+            margin='normal'
+            size='small' 
+            inputRef={ref} 
+            fullWidth 
+            {...props} 
+        />
+    )
+})

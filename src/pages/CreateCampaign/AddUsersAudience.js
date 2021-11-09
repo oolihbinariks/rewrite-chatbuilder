@@ -1,20 +1,24 @@
-import { Divider, IconButton, makeStyles, Typography } from '@material-ui/core'
+import { Avatar, Divider, IconButton, List, ListItem, ListItemSecondaryAction, makeStyles, Paper, Typography } from '@material-ui/core'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { useDispatch } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
 
-
-import Breadcrumbs from '../../../components/sharedComponents/Breadcrumbs/Breadcrumbs'
-import { ButtonCustom } from '../../../components/sharedComponents/Buttons/ButtonOutlined'
-import { StyledInput } from '../../../components/sharedComponents/Inputs/InputCustom'
-// import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-import IconDelete from '../../../components/sharedComponents/Buttons/IconDelete'
-import { addUsersAudienceSagaAction } from '../../../store/actions/AudiencesActions/audiencesActionCreators';
-import { useHistory, useParams } from 'react-router-dom';
+import { ButtonCustom } from '../../components/sharedComponents/Buttons/ButtonOutlined'
+import { StyledInput } from '../../components/sharedComponents/Inputs/InputCustom'
+import IconDelete from '../../components/sharedComponents/Buttons/IconDelete'
+// import { addUsersAudienceSagaAction } from '../../../store/actions/AudiencesActions/audiencesActionCreators';
+import { useHistory } from 'react-router-dom';
+import { CREATE_CAMP_STEP_TWO_ROUTE } from '../../constants/routesUrl';
+import ListUserInfo from '../Audiences/Audience/ListUserInfo';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 const useStyles = makeStyles((theme)=> ({
+    headerPage: {
+        marginBottom:theme.spacing(3),
+    },
     wrapperInputs:{
         padding:`0 ${theme.spacing(1)}px`,
         display:'flex',
@@ -46,19 +50,43 @@ const useStyles = makeStyles((theme)=> ({
             background:"#fff",
         },
     },
+    listItem:{
+        marginBottom:theme.spacing(1),
+    },
+    demo: {
+        backgroundColor: theme.palette.background.paper,
+    },
+    avatarPrimary: {
+        '&.MuiAvatar-root':{
+          backgroundColor: theme.palette.primary.main,
+          color: theme.palette.text.primary,
+          borderRadius:'50%',
+          border:`1px solid ${theme.palette.primary.main}`,
+          '& :hover':{
+            boxSizing: 'content-box',
+            padding:'6px',
+            backgroundColor: "white",
+            borderRadius:'50%',
+            border:`1px solid ${theme.palette.primary.main}`,
     
+          },
+        },
+      },
 }))
 
 const AddAudience = () => {
     let history = useHistory();
 
     const classes = useStyles()
-    let { audience: audienceId } = useParams();
+    //set states
     const [rowUser, setRowUser] = useState([
         {
             id:'row',
         },
     ])
+    //set userList state
+    const [listAddedUsers, setListAddedUsers] = useState([])
+    console.log('listAddedUsers', listAddedUsers);
     // Create schema validation data
     const objSchema = {}
     rowUser.forEach( row => {
@@ -79,12 +107,11 @@ const AddAudience = () => {
         resolver: yupResolver(audienceValidateSchema)
       });
 
-    const dispatch = useDispatch()
     const saveData = data => {
         const users =[];
             rowUser.forEach((row, index) => {
                 users[index] ={}
-                users[index].id = Math.round(Math.random() * Math.random() * 100 + 121).toString()
+                users[index].id = uuidv4()
                 for (const [key, value] of Object.entries(data)) {
                     if (`fullName${row.id}` === key) {
                         users[index]['fullName']=value                        
@@ -103,23 +130,56 @@ const AddAudience = () => {
                     }
                   }
             })  
-
-        dispatch(addUsersAudienceSagaAction({audienceId, users}))
-        history.push(`/audience/${audienceId}`)
+            setListAddedUsers(listAddedUsers.concat(users))
+            setRowUser([
+                {
+                    id:'row',
+                },
+            ])
+            reset()
+        // dispatch(addUsersAudienceSagaAction({audienceId, users}))
     };
-
+    const handlerDeleteUser =(id)=>{
+        setListAddedUsers(listAddedUsers.filter((user)=>(user.id !== id)))
+    }
    const handlerAddRow = () => {
-    setRowUser([...rowUser, {id:`row${rowUser.length}`}])
+    setRowUser([...rowUser, {id:uuidv4()}])
    } 
    const handlerDeleteRow = (id) => {
     setRowUser(rowUser.filter(row => row.id !== id ))
    } 
     return (
         <div className='wrapper'>
-            <Breadcrumbs />
+            <div className={classes.headerPage}>
+              <Typography variant='h4' component='h2'>
+              Welcome Admin
+              </Typography>
+              <Typography variant='subtitle1' component='p'>
+              Have your campaign up and running in just a few easy steps.
+              </Typography>
+            </div>
             <div>
+                <ButtonCustom onClick={()=>history.push(CREATE_CAMP_STEP_TWO_ROUTE)} variant='contained' color='secondary' type='submit' >Go Back</ButtonCustom>
                 <Typography align='center' variant='h4'>Add Users Manually</Typography>
                 <Divider />
+                <div className={classes.demo}>
+                    <List dense={true}>
+                    {listAddedUsers && listAddedUsers.map((user) => 
+                        <Paper key={user.id} className={classes.listItem} elevation={5}>
+                            <ListItem>
+                                <ListUserInfo user={user} />
+                                <ListItemSecondaryAction>
+                                    <IconButton onClick={()=>handlerDeleteUser(user.id)} edge="end" aria-label="delete">
+                                        <Avatar aria-label="recipe" className={classes.avatarPrimary}>
+                                            <DeleteIcon />
+                                        </Avatar>
+                                    </IconButton>
+                                </ListItemSecondaryAction>
+                            </ListItem>
+                        </Paper>,
+                    )}
+                    </List>
+                </div>
                 <form onSubmit = {handleSubmit(saveData)} noValidate autoComplete='off'>
                    
                     {rowUser.map((row, index)=>(

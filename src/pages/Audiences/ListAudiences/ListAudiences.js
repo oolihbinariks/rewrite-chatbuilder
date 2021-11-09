@@ -22,10 +22,19 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.text.primary,
     },
     avatarPrimary: {
-      backgroundColor: theme.palette.primary.main,
-      color: theme.palette.text.primary,
-      '& :hover':{
-        backgroundColor: "white",
+      '&.MuiAvatar-root':{
+        backgroundColor: theme.palette.primary.main,
+        color: theme.palette.text.primary,
+        borderRadius:'50%',
+        border:`1px solid ${theme.palette.primary.main}`,
+        '& :hover':{
+          boxSizing: 'content-box',
+          padding:'6px',
+          backgroundColor: "white",
+          borderRadius:'50%',
+          border:`1px solid ${theme.palette.primary.main}`,
+  
+        },
       },
     },
     actionInfo: {
@@ -42,7 +51,7 @@ const ListAudiences = () => {
     const classes = useStyles();
     const dense = false;
     
-    const audiences = useSelector(state => getAudiencesAll(state))
+    const audiences = useSelector(state => getAudiencesAll(state.audiences))
     const dispatch = useDispatch()
     useEffect(() => {
       // effect

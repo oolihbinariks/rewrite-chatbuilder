@@ -31,12 +31,13 @@ const sortes = [
 const audienceValidateSchema = yup.object({
     templateName: yup.string('Please enter category name').required('Please enter category name'),
     icon: yup.string('Please select a icon String').required("Please select a icon").oneOf(sortes.map(icon=>icon.value !=='unselect' && icon.value), "Please select a icon")
-}).required();
+// }).required();
+});
 
 const FormAddTemplate = ({onClose}) => {
     const classes = useStyles();
     let {category} = useParams()
-    const { register, handleSubmit, reset,formState: { errors } } = useForm({
+    const { register, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: yupResolver(audienceValidateSchema)
       });
     const dispatch = useDispatch()
@@ -54,15 +55,11 @@ const FormAddTemplate = ({onClose}) => {
                     </DialogContentText>
                     <div>
                         <StyledInput
-                            variant='outlined' 
                             label='Enter Category name' 
-                            size='small'
                             type='text' 
-                            id='category'
                             {...register('templateName')}
-                            error = {(errors?.templateName) ? true : false}
-                            helperText = {(errors?.templateName?.message) ? errors.templateName.message : ''}
-                            fullWidth 
+                            error = {!!errors?.templateName?.message}
+                            helperText = {errors?.templateName?.message}
                             />
 
                     </div>
@@ -71,16 +68,13 @@ const FormAddTemplate = ({onClose}) => {
                     </DialogContentText>
                     <div>
                     <StyledInput
-                        variant='outlined' 
                         label='Select Your Category Icon' 
-                        size='small'
                         type='select' 
-                        id='icon'
                         select
+                        defaultValue={sortes[0].value}
                         {...register('icon')}
-                        error = {(errors?.icon) ? true : false}
-                        helperText = {(errors?.icon?.message) ? errors.icon.message : ''}
-                        fullWidth
+                        error = {!!errors?.icon?.message}
+                        helperText = {errors?.icon?.message}
                     >
                         {sortes.map((option) => (
                             <MenuItem key={option.value} value={option.value}>

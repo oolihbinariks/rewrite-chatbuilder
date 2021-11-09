@@ -6,11 +6,13 @@ import { authReducer } from './reducers/AuthReducer/authReducer'
 import { audiencesReducer } from './reducers/AudiencesReducer/audiencesReducer'
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { templatesReducer } from './reducers/TemplatesReducer/templatesReducer'
+import { campaignsReducer } from './reducers/CampaignsReducer/campaignsReducer'
 
 const rootReducers = combineReducers({
     auth: authReducer,
     audiences: audiencesReducer,
     templates: templatesReducer,
+    campaigns: campaignsReducer,
 })
 
 const sagaMiddleware = createSagaMiddleware()

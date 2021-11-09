@@ -8,7 +8,7 @@ export const getAudienceById = (state, id) =>(
 
   export const getAudiencesAll = createSelector(
     getStateAudiences,
-    (audiences) =>audiences.audiences,
+    (audiences) =>audiences,
   );
   export const getAudienceByIdSelect =createSelector(
     getAudienceById,

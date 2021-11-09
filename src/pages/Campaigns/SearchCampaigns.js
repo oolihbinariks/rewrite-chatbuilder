@@ -137,13 +137,12 @@ const SearchCampaigns = () => {
                             }}
                         />
                         <StyledInput 
-                            fullWidth 
-                            className={classes.inputItem} size = 'small'  
+                            className={classes.inputItem}   
                             select 
                             id="outlined-search" 
                             value={sort} 
                             type="select" 
-                            variant="outlined" 
+                            variant="outlined"
                             onChange={handleSort}
                         >
                             {sortes.map((option) => (

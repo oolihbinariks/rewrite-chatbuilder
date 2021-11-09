@@ -23,11 +23,11 @@ const useStyles = makeStyles((theme)=> ({
         }
     },
 }))
-const IconDelete = ({handlerDeleteRow, delId}) => {
+const IconDelete = (props) => {
     const classes = useStyles()
     return (
-        <IconButton className={classes.iconRow}>
-            <HighlightOffIcon onClick={()=>handlerDeleteRow(delId)} className={classes.iconDel} />
+        <IconButton {...props} className={classes.iconRow}>
+            <HighlightOffIcon className={classes.iconDel} />
         </IconButton>
     )
 }
