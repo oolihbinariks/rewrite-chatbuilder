@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { withRouter, Switch, Route,Redirect } from 'react-router-dom'
+import { Switch, Route,Redirect } from 'react-router-dom'
 import { HOME_ROUTE } from '../constants/routesUrl'
 import Main from '../layouts/Main'
 import Page404 from '../pages/Page404'
@@ -13,7 +13,6 @@ const RouteWithLayout = ({component: Component, layout: Layout, ...rest})=>(
     )} />
 )
 export const AppRouter =() =>{
-// const AppRouterWrapped = () => {
     const isAuth = useSelector(state => getAuthToken(state))
     console.log(`isauth ${isAuth}`);
     return (
@@ -36,4 +35,3 @@ export const AppRouter =() =>{
         </Switch>
     )
 }
-// export const AppRouter = withRouter(AppRouterWrapped)
