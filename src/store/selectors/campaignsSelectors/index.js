@@ -1,8 +1,2 @@
-// import { createSelector } from 'reselect';
-
 export const getPrepareCampaign = (state) => (state.campaigns.prepareCampaign)
-
-// export const getCategoriesAll = createSelector(
-//   getStateCategories,
-//   (categories) =>categories,
-//   );
+export const getStepType = (state) => (state.campaigns.stepType)

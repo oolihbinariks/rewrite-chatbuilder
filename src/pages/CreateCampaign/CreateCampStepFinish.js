@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getPrepareCampaign } from '../../store/selectors/campaignsSelectors';
 import { StyledInput } from '../../components/sharedComponents/Inputs/InputCustom';
 import { format } from 'date-fns'
+import { Stepper } from './Stepper';
+import { setStepTypeAction } from '../../store/actions/CampaignsActions/campaignsActionCreators';
 
 const useStyles = makeStyles((theme) => ({
     headerPage: {
@@ -44,6 +46,7 @@ const CreateCampStepFinish = () => {
     const prepareCampaign = useSelector(state => getPrepareCampaign(state))
     
     const goBack = (toStep) => {
+        dispatch(setStepTypeAction('stepTwoReverse'))
         history.push (toStep);
     };
 
@@ -57,6 +60,7 @@ const CreateCampStepFinish = () => {
               Have your campaign up and running in just a few easy steps.
               </Typography>
             </div>
+            <Stepper percent='99'/>
             <Paper className={classes.stepFinishPaper}>
                 <div className={classes.finalCreateCamp}>
                     <Typography variant='h4' component='h3'>

@@ -1,6 +1,7 @@
 import React from 'react'
 import {  makeStyles, Typography } from '@material-ui/core'
 import FormCreateCampaign from './FormCreateCampaign';
+import { Stepper } from './Stepper';
 
 const useStyles = makeStyles((theme) => ({
   headerPage: {
@@ -21,6 +22,7 @@ const CreateCampaign = () => {
               Have your campaign up and running in just a few easy steps.
               </Typography>
             </div>
+            <Stepper percent='33'/>
             <FormCreateCampaign />
         </div>
     )

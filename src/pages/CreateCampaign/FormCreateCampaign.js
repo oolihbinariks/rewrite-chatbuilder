@@ -20,7 +20,7 @@ import { getCategoriesAll } from '../../store/selectors/templatesSelectors';
 import { getPrepareCampaign } from '../../store/selectors/campaignsSelectors';
 
 //import actionCreators
-import { savePrepareCampaignSagaAction } from '../../store/actions/CampaignsActions/campaignsActionCreators';
+import { savePrepareCampaignSagaAction, setStepTypeAction } from '../../store/actions/CampaignsActions/campaignsActionCreators';
 
 //import constants
 import { CREATE_CAMP_STEP_TWO_ROUTE } from '../../constants/routesUrl';
@@ -143,6 +143,7 @@ const FormCreateCampaign = () => {
             datePick: getTime(data.datePick)
         }
         dispatch(savePrepareCampaignSagaAction(newCampaign))
+        dispatch(setStepTypeAction('stepTwo'))
         console.log(data)
         cancelHandler()
         history.push (CREATE_CAMP_STEP_TWO_ROUTE);
@@ -303,7 +304,7 @@ const FormCreateCampaign = () => {
                                     />
                                     <div className={classes.formRowBlock}>
                                         <DialogContentText>
-                                            Please choose Campaign Type
+                                            Please choose Template
                                         </DialogContentText>
                                             <Controller 
                                                 name='campaignTemplate'

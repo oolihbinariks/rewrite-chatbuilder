@@ -1,4 +1,4 @@
-import { ADD_CAMPAIGN, ADD_CAMPAIGN_SAGA, SAVE_PREPARE_CAMPAIGN, SAVE_PREPARE_CAMPAIGN_SAGA } from "./campaignsActions"
+import { ADD_CAMPAIGN, ADD_CAMPAIGN_SAGA, SAVE_PREPARE_CAMPAIGN, SAVE_PREPARE_CAMPAIGN_SAGA, SET_STEP_TYPE } from "./campaignsActions"
 
 
 export const savePrepareCampaignAction = (prepareCampaign) => ({
@@ -17,4 +17,8 @@ export const addCampaignAction = (newCampaign) => ({
 export const addCampaignSagaAction = (newCampaign) => ({
     type: ADD_CAMPAIGN_SAGA,
     payload: newCampaign
+})
+export const setStepTypeAction = (stepType) => ({
+    type: SET_STEP_TYPE,
+    payload: stepType
 })

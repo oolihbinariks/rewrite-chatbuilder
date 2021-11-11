@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { ButtonCustom } from '../../components/sharedComponents/Buttons/ButtonOutlined';
 
 //import components and feature from material ui
-import { Chip, Divider, Grid, Input, makeStyles, Paper, Typography } from '@material-ui/core';
+import { Chip, Divider, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
 
 //import features and hooks for react-redux state management
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,7 +15,7 @@ import { getAudiencesAll } from '../../store/selectors/audencesSelectors';
 import { getPrepareCampaign } from '../../store/selectors/campaignsSelectors';
 
 //import actionCreators
-import { savePrepareCampaignSagaAction } from '../../store/actions/CampaignsActions/campaignsActionCreators';
+import { savePrepareCampaignSagaAction, setStepTypeAction } from '../../store/actions/CampaignsActions/campaignsActionCreators';
 
 //import constants
 import { CREATE_CAMPAIGN_ADD_USERS_ROUTE, CREATE_CAMPAIGN_ROUTE, CREATE_CAMP_FINISH_ROUTE } from '../../constants/routesUrl';
@@ -23,6 +23,7 @@ import { CREATE_CAMPAIGN_ADD_USERS_ROUTE, CREATE_CAMPAIGN_ROUTE, CREATE_CAMP_FIN
 //import other additional libraries
 import { useHistory } from 'react-router-dom';
 import { IconTick } from './IconTick';
+import { Stepper } from './Stepper';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -86,7 +87,6 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-
 const CreateCampStep2 = () => {
     const classes = useStyles();
     let history = useHistory()
@@ -132,11 +132,19 @@ const CreateCampStep2 = () => {
         }
     }
     const saveData = (toUrl) => {
+        let stepType =''
+        if (toUrl === CREATE_CAMPAIGN_ROUTE) {
+            stepType = 'stepOneReverse'
+        }
+        if (toUrl === CREATE_CAMP_FINISH_ROUTE) {
+            stepType = 'stepThree'
+        }
         if (pickAudience) {
             const newCampaign = {
                 listAudience: pickAudience
             }
             dispatch(savePrepareCampaignSagaAction(newCampaign))
+            dispatch(setStepTypeAction(stepType))
             setPickAudience(null)
             history.push (toUrl);
         }
@@ -154,6 +162,7 @@ const CreateCampStep2 = () => {
             }
             setUploadErrors({})
             setFileValue('')
+            dispatch(setStepTypeAction(stepType))
             history.push(toUrl);
         }
     };
@@ -168,6 +177,7 @@ const CreateCampStep2 = () => {
               Have your campaign up and running in just a few easy steps.
               </Typography>
             </div>
+            <Stepper percent='66' />
             <Paper className={classes.stepThreePaper}>
                 <Typography className={classes.headerListAudiences} variant='h5' component='h2'>
                     Available audience sets (Select Existing)
@@ -226,7 +236,7 @@ const CreateCampStep2 = () => {
                         
                             <div className={classes.addUsersBtnBlock}>
                                 <Typography variant='h5' component='span'>Add users(Manually)</Typography>
-                                <ButtonCustom onClick={()=>history.push(history.push (CREATE_CAMPAIGN_ADD_USERS_ROUTE))} style={{color:"#000"}} variant='outlined'>Add user</ButtonCustom>
+                                <ButtonCustom onClick={()=>history.push(history.push (CREATE_CAMPAIGN_ADD_USERS_ROUTE))} style={{color:"#000"}} variant='outlined' >Add user</ButtonCustom>
                             </div>
                     </Grid>
                     <Divider className={classes.divider} />

@@ -14,6 +14,7 @@ import { useHistory } from 'react-router-dom';
 import { CREATE_CAMP_STEP_TWO_ROUTE } from '../../constants/routesUrl';
 import ListUserInfo from '../Audiences/Audience/ListUserInfo';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { Stepper } from './Stepper';
 
 const useStyles = makeStyles((theme)=> ({
     headerPage: {
@@ -103,7 +104,7 @@ const AddAudience = () => {
     });
     const audienceValidateSchema = yup.object(objSchema).required();
 
-    const { register, handleSubmit, watch, reset,formState: { errors } } = useForm({
+    const { register, handleSubmit, reset,formState: { errors } } = useForm({
         resolver: yupResolver(audienceValidateSchema)
       });
 
@@ -158,6 +159,7 @@ const AddAudience = () => {
               Have your campaign up and running in just a few easy steps.
               </Typography>
             </div>
+            <Stepper percent='66'/>
             <div>
                 <ButtonCustom onClick={()=>history.push(CREATE_CAMP_STEP_TWO_ROUTE)} variant='contained' color='secondary' type='submit' >Go Back</ButtonCustom>
                 <Typography align='center' variant='h4'>Add Users Manually</Typography>
