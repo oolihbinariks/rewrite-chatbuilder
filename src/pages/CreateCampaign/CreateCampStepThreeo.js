@@ -20,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
         fontSize: '18px',
         padding: '30px',
-        // textDecoration: 'none',
         borderRadius: '8px',
         transition: '0.4s all ease',
         '-webkit-transition': '0.4s all ease',
@@ -36,7 +35,6 @@ const useStyles = makeStyles((theme) => ({
         paddingLeft:'12%',
         position:'relative',
         '&:before':{
-            // content:`url('${IconDatabase}')`,
             content:`''`,
             position:'absolute',
             width:'10%',
@@ -63,7 +61,6 @@ const useStyles = makeStyles((theme) => ({
         paddingLeft:'12%',
         position:'relative',
         '&:before':{
-            // content:`url('${IconDatabase}')`,
             content:`''`,
             position:'absolute',
             width:'10%',
@@ -123,8 +120,8 @@ const CreateCampStep2 = () => {
                     </Grid>
                     <Grid item container>
                         <div>
-                            <ButtonCustom onClick={()=>toUrl(CREATE_CAMPAIGN_ROUTE)} variant='contained' color='secondary'>Back</ButtonCustom>
-                            <ButtonCustom onClick={()=>toUrl(CREATE_CAMP_STEP_THREE_ROUTE)} variant='contained' color='secondary'>Next</ButtonCustom>
+                            <ButtonCustom onClick={()=>toUrl(CREATE_CAMPAIGN_ROUTE)} varianttrig='contained' variant='contained' color='secondary'>Back</ButtonCustom>
+                            <ButtonCustom onClick={()=>toUrl(CREATE_CAMP_STEP_THREE_ROUTE)} varianttrig='contained' variant='contained' color='secondary'>Next</ButtonCustom>
                         </div>
                     </Grid>
                 </Grid>

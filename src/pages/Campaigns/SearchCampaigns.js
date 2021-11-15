@@ -151,7 +151,7 @@ const SearchCampaigns = () => {
                                 </MenuItem>
                             ))}
                         </StyledInput>
-                        <ButtonCustom variant='contained'  color='secondary'>Search</ButtonCustom>
+                        <ButtonCustom varianttrig='contained' variant='contained'  color='secondary'>Search</ButtonCustom>
                     </div>               
                 </form>
             </Paper>

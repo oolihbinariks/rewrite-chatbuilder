@@ -3,13 +3,11 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
-import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 
 import { ButtonCustom } from '../../components/sharedComponents/Buttons/ButtonOutlined'
 import { StyledInput } from '../../components/sharedComponents/Inputs/InputCustom'
 import IconDelete from '../../components/sharedComponents/Buttons/IconDelete'
-// import { addUsersAudienceSagaAction } from '../../../store/actions/AudiencesActions/audiencesActionCreators';
 import { useHistory } from 'react-router-dom';
 import { CREATE_CAMP_STEP_TWO_ROUTE } from '../../constants/routesUrl';
 import ListUserInfo from '../Audiences/Audience/ListUserInfo';
@@ -138,7 +136,6 @@ const AddAudience = () => {
                 },
             ])
             reset()
-        // dispatch(addUsersAudienceSagaAction({audienceId, users}))
     };
     const handlerDeleteUser =(id)=>{
         setListAddedUsers(listAddedUsers.filter((user)=>(user.id !== id)))
@@ -161,7 +158,7 @@ const AddAudience = () => {
             </div>
             <Stepper percent='66'/>
             <div>
-                <ButtonCustom onClick={()=>history.push(CREATE_CAMP_STEP_TWO_ROUTE)} variant='contained' color='secondary' type='submit' >Go Back</ButtonCustom>
+                <ButtonCustom onClick={()=>history.push(CREATE_CAMP_STEP_TWO_ROUTE)} varianttrig='contained' variant='contained' color='secondary' type='submit' >Go Back</ButtonCustom>
                 <Typography align='center' variant='h4'>Add Users Manually</Typography>
                 <Divider />
                 <div className={classes.demo}>
@@ -255,8 +252,8 @@ const AddAudience = () => {
                     ))}
                         
                         <div className={`${classes.wrapperButtons}`}>
-                            <ButtonCustom onClick={handlerAddRow} variant='contained' color='secondary' >Add Row</ButtonCustom>
-                            <ButtonCustom variant='contained' color='secondary' type='submit' >Save</ButtonCustom>
+                            <ButtonCustom onClick={handlerAddRow} varianttrig='contained' variant='contained' color='secondary' >Add Row</ButtonCustom>
+                            <ButtonCustom varianttrig='contained' variant='contained' color='secondary' type='submit' >Save</ButtonCustom>
                         </div>
                 </form>
             </div>

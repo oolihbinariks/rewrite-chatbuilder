@@ -3,7 +3,7 @@ import { AUTH_SUCCESS, AUTH_FAILURE } from "../../actions/AuthActions/authAction
 const initialState = {
     // token: localStorage.getItem('token'),
     token: 'l15',
-    error: null
+    error: null,
 }
 
 export const authReducer = (state = initialState, {type, payload}) => {

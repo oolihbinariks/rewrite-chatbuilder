@@ -84,6 +84,9 @@ const useStyles = makeStyles((theme) => ({
     },
     groupOption:{
         marginBottom:theme.spacing(1)
+    },
+    btnAddUsers:{
+        color:'#000'
     }
   }));
 
@@ -236,13 +239,13 @@ const CreateCampStep2 = () => {
                         
                             <div className={classes.addUsersBtnBlock}>
                                 <Typography variant='h5' component='span'>Add users(Manually)</Typography>
-                                <ButtonCustom onClick={()=>history.push(history.push (CREATE_CAMPAIGN_ADD_USERS_ROUTE))} style={{color:"#000"}} variant='outlined' >Add user</ButtonCustom>
+                                <ButtonCustom onClick={()=>history.push(history.push (CREATE_CAMPAIGN_ADD_USERS_ROUTE))} varianttrig='outlined' variant='outlined' className={classes.btnAddUsers}>Add user</ButtonCustom>
                             </div>
                     </Grid>
                     <Divider className={classes.divider} />
                     <div>
-                        <ButtonCustom style={{padding:'8px 80px'}} onClick={()=>saveData(CREATE_CAMPAIGN_ROUTE)} variant='contained' color='secondary'>Back</ButtonCustom>
-                        <ButtonCustom style={{padding:'8px 80px'}} onClick={()=>saveData(CREATE_CAMP_FINISH_ROUTE)} variant='contained' color='secondary'>Next</ButtonCustom>
+                        <ButtonCustom style={{padding:'8px 80px'}} onClick={()=>saveData(CREATE_CAMPAIGN_ROUTE)} varianttrig='contained' variant='contained' color='secondary'>Back</ButtonCustom>
+                        <ButtonCustom style={{padding:'8px 80px'}} onClick={()=>saveData(CREATE_CAMP_FINISH_ROUTE)} varianttrig='contained' variant='contained' color='secondary'>Next</ButtonCustom>
                     </div>
             </Paper>
         </div>

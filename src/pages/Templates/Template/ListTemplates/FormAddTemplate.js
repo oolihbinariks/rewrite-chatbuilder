@@ -31,7 +31,6 @@ const sortes = [
 const audienceValidateSchema = yup.object({
     templateName: yup.string('Please enter category name').required('Please enter category name'),
     icon: yup.string('Please select a icon String').required("Please select a icon").oneOf(sortes.map(icon=>icon.value !=='unselect' && icon.value), "Please select a icon")
-// }).required();
 });
 
 const FormAddTemplate = ({onClose}) => {
@@ -84,10 +83,10 @@ const FormAddTemplate = ({onClose}) => {
                     </StyledInput>
                     </div>
                     <DialogActions className={classes.dialogAction}>
-                        <ButtonCustom onClick={onClose} variant='contained' size='small' color="primary">
+                        <ButtonCustom onClick={onClose} varianttrig='contained' variant='contained' size='small' color="primary">
                             Cancel
                         </ButtonCustom>
-                        <ButtonCustom variant='contained' size='small' color="secondary" type='submit' >
+                        <ButtonCustom varianttrig='contained' variant='contained' size='small' color="secondary" type='submit' >
                             Save
                         </ButtonCustom>
                     </DialogActions>

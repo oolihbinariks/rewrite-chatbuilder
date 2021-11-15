@@ -51,10 +51,10 @@ const FormAddAudience = ({onClose}) => {
 
                     </div>
                     <DialogActions className={classes.dialogAction}>
-                        <ButtonCustom onClick={onClose} variant='contained' size='small' color="primary">
+                        <ButtonCustom onClick={onClose} varianttrig='contained' variant='contained' size='small' color="primary">
                             Cancel
                         </ButtonCustom>
-                        <ButtonCustom variant='contained' size='small' color="secondary" type='submit' >
+                        <ButtonCustom varianttrig='contained' variant='contained' size='small' color="secondary" type='submit' >
                             Save
                         </ButtonCustom>
                     </DialogActions>

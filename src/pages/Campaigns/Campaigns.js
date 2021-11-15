@@ -35,8 +35,8 @@ const Campaigns = () => {
                   View and manage your account and ongoing campaigns
               </Typography>
               <div className={classes.wrapperButtons}>
-                <ButtonCustom className={`${classes.spacingButtons} buttonContained`} variant='contained' color='secondary'>Generate Reports</ButtonCustom>
-                <ButtonCustom variant='contained' color='secondary'>Create Campaign</ButtonCustom>
+                <ButtonCustom className={`${classes.spacingButtons} buttonContained`} varianttrig='contained' variant='contained' color='secondary'>Generate Reports</ButtonCustom>
+                <ButtonCustom varianttrig='contained' variant='contained' color='secondary'>Create Campaign</ButtonCustom>
               </div>
             </div>
             <SearchCampaigns />

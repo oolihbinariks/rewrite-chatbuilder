@@ -280,13 +280,14 @@ const FormCreateCampaign = () => {
                             <DialogActions className={classes.dialogAction}>
                                 <ButtonCustom
                                     onClick={cancelHandler} 
+                                    varianttrig='contained'
                                     variant='contained' 
                                     size='small' 
                                     color="primary"
                                 >
                                     Clear
                                 </ButtonCustom>
-                                <ButtonCustom variant='contained' size='small' color="secondary" type='submit' >
+                                <ButtonCustom varianttrig='contained' variant='contained' size='small' color="secondary" type='submit' >
                                     Create New Campaign
                                 </ButtonCustom>
                             </DialogActions>

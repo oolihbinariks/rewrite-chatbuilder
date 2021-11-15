@@ -128,8 +128,8 @@ const CreateCampStepFinish = () => {
                     </FormGroup>
                 </div>
                 <div>
-                            <ButtonCustom onClick={()=>goBack(CREATE_CAMP_STEP_TWO_ROUTE)} variant='contained' color='secondary'>Go Back</ButtonCustom>
-                            <ButtonCustom variant='contained' color='secondary'>Done</ButtonCustom>
+                            <ButtonCustom onClick={()=>goBack(CREATE_CAMP_STEP_TWO_ROUTE)} varianttrig='contained' variant='contained' color='secondary'>Go Back</ButtonCustom>
+                            <ButtonCustom varianttrig='contained' variant='contained' color='secondary'>Done</ButtonCustom>
                 </div>
             </Paper>
         </div>

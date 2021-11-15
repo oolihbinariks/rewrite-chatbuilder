@@ -41,12 +41,12 @@ const Audience = ({history}) => {
             <div className={classes.headerPage}>
                 <CustomizedBreadcrumbs />
                 <div className={classes.wrapperButtons}>
-                    <ButtonCustom className={classes.spacingButtons} onClick = {handleClickAdd} variant='contained' color='secondary'>Add users</ButtonCustom>
-                    <ButtonCustom onClick = {handleClickAdd} variant='contained' color='secondary'>Download excel</ButtonCustom>
+                    <ButtonCustom className={classes.spacingButtons} onClick = {handleClickAdd} varianttrig='contained' variant='contained' color='secondary'>Add users</ButtonCustom>
+                    <ButtonCustom onClick = {handleClickAdd} varianttrig='contained' variant='contained' color='secondary'>Download excel</ButtonCustom>
                 </div>
             </div>
             <div>
-              <Typography align='center' variant='h4'>Found {audience?.users?.length && audience?.users?.length || 0} users</Typography>
+              <Typography align='center' variant='h4'>Found {(audience?.users?.length && audience?.users?.length) || 0} users</Typography>
               <ListUsers users ={audience?.users} />
             </div>
         </div>

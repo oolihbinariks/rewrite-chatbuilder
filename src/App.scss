@@ -1,5 +1,6 @@
 .main-container{
       display: flex;
+      background-color: #fff;
       flex-direction: column;
       min-height: 100vh;
       overflow: hidden;
@@ -16,39 +17,10 @@
       main{
             background-color: #fff;
             min-height: 80vh;
-            margin-top: 70px;
+            margin-top: 110px;
       }
       .nonAnchor{
             text-decoration: none;
             color: inherit;
-      }
-      ul{
-            &.menu{
-                  display: flex;
-                  justify-content: flex-start;
-                  list-style: none;
-                  .nav-item{
-                        padding: 0 0 0 20px;
-                        font-size: 18px;
-                        line-height: 1.5em;
-                        .nav-link{
-                              text-decoration: none;
-                              color: #fff;
-                              &.active, &:active, &:hover{
-                                    position: relative;
-                                    // padding-bottom: 40px;
-                                    &:after{
-                                          position: absolute;
-                                          content: '';
-                                          height: 5px;
-                                          width: 100%;
-                                          background-color: #fe579d;
-                                          bottom: -23px;
-                                          left: 0;
-                                    }
-                              } 
-                        }
-                  }
-            }
       }
 }

@@ -16,10 +16,10 @@ const ConfirmDel = ({onClose, deleteElemHandler}) => {
             <DialogTitle id="form-dialog-title">Are you sure you want to delete the dialog step?</DialogTitle>
             <DialogContent>
                 <DialogActions className={classes.dialogAction}>
-                    <ButtonCustom onClick={onClose} variant='contained' size='small' color="primary">
+                    <ButtonCustom onClick={onClose} varianttrig='contained' variant='contained' size='small' color="primary">
                         Cancel
                     </ButtonCustom>
-                    <ButtonCustom onClick={deleteElemHandler} variant='contained' size='small' color="secondary" type='submit' >
+                    <ButtonCustom onClick={deleteElemHandler} varianttrig='contained' variant='contained' size='small' color="secondary" type='submit' >
                         Confirm
                     </ButtonCustom>
                 </DialogActions>

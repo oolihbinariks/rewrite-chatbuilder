@@ -163,11 +163,9 @@ const cancelHandler = ()=>{
                     <Controller 
                         name='node'
                         control={control}
-                        // defaultValue={responseType[0].value}
                         render={
                             ({onChange, onBlur, value}) => (             
                                 <StyledInput
-                                    // value={(!updatElemTrigger)? nodeValue: updateElement?.data?.nodeType}
                                     value={nodeValue}
                                     onChange={handleNodeChange}
                                     variant='outlined' 
@@ -196,11 +194,9 @@ const cancelHandler = ()=>{
                     <Controller 
                         name='textMessage'
                         control={control}
-                        // defaultValue=''
                         render={
                             ({onChange, onBlur, value}) => (             
                                 <StyledInput
-                                    // value={(!updatElemTrigger)? textMessageValue: updateElement?.data?.message}
                                     value={textMessageValue}
                                     onChange={handletextMessageChange}
                                     variant='outlined' 
@@ -223,13 +219,14 @@ const cancelHandler = ()=>{
                     <DialogActions className={classes.dialogAction}>
                         <ButtonCustom
                             onClick={cancelHandler} 
+                            varianttrig='contained'
                             variant='contained' 
                             size='small' 
                             color="primary"
                         >
                             Cancel
                         </ButtonCustom>
-                        <ButtonCustom variant='contained' size='small' color="secondary" type='submit' >
+                        <ButtonCustom varianttrig='contained' variant='contained' size='small' color="secondary" type='submit' >
                             Save
                         </ButtonCustom>
                     </DialogActions>
@@ -238,7 +235,8 @@ const cancelHandler = ()=>{
                         <br/>
                         <div>
                         <ButtonCustom
-                            onClick={saveDialog} 
+                            onClick={saveDialog}
+                            varianttrig='contained' 
                             variant='contained' 
                             size='small' 
                             color="primary"

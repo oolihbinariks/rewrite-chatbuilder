@@ -1,4 +1,4 @@
-import { Divider, IconButton, makeStyles, Typography } from '@material-ui/core'
+import { Divider, makeStyles, Typography } from '@material-ui/core'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -9,7 +9,6 @@ import { useDispatch } from 'react-redux';
 import Breadcrumbs from '../../../components/sharedComponents/Breadcrumbs/Breadcrumbs'
 import { ButtonCustom } from '../../../components/sharedComponents/Buttons/ButtonOutlined'
 import { StyledInput } from '../../../components/sharedComponents/Inputs/InputCustom'
-// import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import IconDelete from '../../../components/sharedComponents/Buttons/IconDelete'
 import { addUsersAudienceSagaAction } from '../../../store/actions/AudiencesActions/audiencesActionCreators';
 import { useHistory, useParams } from 'react-router-dom';
@@ -75,7 +74,7 @@ const AddAudience = () => {
     });
     const audienceValidateSchema = yup.object(objSchema).required();
 
-    const { register, handleSubmit, watch, reset,formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(audienceValidateSchema)
       });
 
@@ -193,8 +192,8 @@ const AddAudience = () => {
                     ))}
                         
                         <div className={`${classes.wrapperButtons}`}>
-                            <ButtonCustom onClick={handlerAddRow} variant='contained' color='secondary' >Add Row</ButtonCustom>
-                            <ButtonCustom variant='contained' color='secondary' type='submit' >Save</ButtonCustom>
+                            <ButtonCustom onClick={handlerAddRow} varianttrig='contained' variant='contained' color='secondary' >Add Row</ButtonCustom>
+                            <ButtonCustom varianttrig='contained' variant='contained' color='secondary' type='submit' >Save</ButtonCustom>
                         </div>
                 </form>
             </div>

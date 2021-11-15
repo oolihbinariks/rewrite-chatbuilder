@@ -47,7 +47,7 @@ const Audience = () => {
                 View and manage your audience set and ongoing campaigns
               </Typography>
               <div className={classes.wrapperButtons}>
-                <ButtonCustom onClick={handleClickOpen} variant='contained' color='secondary'>Create Audience Set</ButtonCustom>
+                <ButtonCustom onClick={handleClickOpen} varianttrig='contained' variant='contained' color='secondary'>Create Audience Set</ButtonCustom>
               </div>
             </div>
             <FormModal open={open} onClose={handleClose}>

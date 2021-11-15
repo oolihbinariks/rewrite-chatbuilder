@@ -1,7 +1,70 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import React from 'react'
 import { AUDIENCES_ROUTE, CAMPAIGNS_ROUTE, CREATE_CAMPAIGN_ROUTE, SETTINGS_ROUTE, TEMPLATES_ROUTE } from '../../../constants/routesUrl'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
+import { makeStyles} from '@material-ui/core';
+const useStyle = makeStyles(theme => ({
+    menu:{
+        display: 'flex',
+        justifyContent: 'flex-start',
+        flexDirection:'row',
+        listStyle: 'none',
+        '& .nav-item':{
+              padding: '0 0 0 20px',
+              fontSize: '18px',
+              lineHeight: '2.5em',
+              '& .nav-link':{
+                    textDecoration: 'none',
+                    color: '#fff',
+                    '&.active, &:active, &:hover':{
+                          position: 'relative',
+                          color:'#fe579d',
+                          paddingBottom: '24px',
+                          '&:after':{
+                                position: 'absolute',
+                                content: `''`,
+                                height: '5px',
+                                width: '100%',
+                                backgroundColor: '#fe579d',
+                                bottom: '-20px',
+                                left: '0',
+                          }
+                    } 
+              }
+        }
+    },
+    menuVertic:{
+        display: 'flex',
+        justifyContent: 'flex-start',
+        flexDirection:'column',
+        listStyle: 'none',
+        '& .nav-item':{
+              padding: '0 0 0 0',
+              margin:'0',
+              fontSize: '18px',
+              lineHeight: '2.5em',
+              '& .nav-link':{
+                    textDecoration: 'none',
+                    margin:'0',
+                    padding:'0',
+                    color: '#fff',
+                    '&.active, &:active, &:hover':{
+                          position: 'relative',
+                          color:'#fe579d',
+                          '&:after':{
+                                position: 'absolute',
+                                content: `''`,
+                                height: '5px',
+                                width: '100%',
+                                backgroundColor: '#fe579d',
+                                bottom: '-10px',
+                                left: '0',
+                          }
+                    } 
+              }
+        }
+    },
+}))
+
 const menuItem =[
     { 
         id:'1',
@@ -29,15 +92,16 @@ const menuItem =[
         url:SETTINGS_ROUTE
     },
 ]
-const Menu = () => {
-    const [activeItemMenu, setActiveItemMenu] = useState(null)
+const Menu = ({classTrigger='menu'}) => {
+    const classes = useStyle()
+    let location = useLocation();
+
     return (
-        <ul className="menu"> 
+        <ul className={(classTrigger && (classTrigger === 'menuVertic'))? classes.menuVertic : classes.menu}> 
             {
                 menuItem.map((item) =>{
-                    const classItem = (item.id === activeItemMenu)? 'nav-link active' :'nav-link';
                     return(<li key={item.id} className="nav-item">
-                        <Link className={classItem} onClick={() => setActiveItemMenu(item.id)} aria-current="page" to={item.url}>{item.title}</Link>
+                        <Link className={(item.url === location.pathname)? 'nav-link active' :'nav-link'} aria-current="page" to={item.url}>{item.title}</Link>
                     </li>)
                 })
             } 
