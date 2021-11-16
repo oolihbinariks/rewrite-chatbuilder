@@ -1,6 +1,5 @@
-// import { SET_ACTIVE_MENU_ITEM } from "./appActions";
+import { TOGGLE_LOADING_APP } from "./appActions";
 
-// export const setActiveMenuItemAction = (activeItemMenu) => ({
-//     type: SET_ACTIVE_MENU_ITEM,
-//     payload: activeItemMenu
-// })
+export const toggleLoadingAppAction = () => ({
+    type: TOGGLE_LOADING_APP
+})

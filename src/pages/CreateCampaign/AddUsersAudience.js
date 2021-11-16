@@ -1,4 +1,4 @@
-import { Avatar, Divider, IconButton, List, ListItem, ListItemSecondaryAction, makeStyles, Paper, Typography } from '@material-ui/core'
+import { Avatar, IconButton, List, ListItem, ListItemSecondaryAction, makeStyles, Paper, Typography } from '@material-ui/core'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -8,11 +8,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { ButtonCustom } from '../../components/sharedComponents/Buttons/ButtonOutlined'
 import { StyledInput } from '../../components/sharedComponents/Inputs/InputCustom'
 import IconDelete from '../../components/sharedComponents/Buttons/IconDelete'
-import { useHistory } from 'react-router-dom';
-import { CREATE_CAMP_STEP_TWO_ROUTE } from '../../constants/routesUrl';
 import ListUserInfo from '../Audiences/Audience/ListUserInfo';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { Stepper } from './Stepper';
 
 const useStyles = makeStyles((theme)=> ({
     headerPage: {
@@ -74,7 +71,6 @@ const useStyles = makeStyles((theme)=> ({
 }))
 
 const AddAudience = () => {
-    let history = useHistory();
 
     const classes = useStyles()
     //set states
@@ -148,19 +144,8 @@ const AddAudience = () => {
    } 
     return (
         <div className='wrapper'>
-            <div className={classes.headerPage}>
-              <Typography variant='h4' component='h2'>
-              Welcome Admin
-              </Typography>
-              <Typography variant='subtitle1' component='p'>
-              Have your campaign up and running in just a few easy steps.
-              </Typography>
-            </div>
-            <Stepper percent='66'/>
             <div>
-                <ButtonCustom onClick={()=>history.push(CREATE_CAMP_STEP_TWO_ROUTE)} varianttrig='contained' variant='contained' color='secondary' type='submit' >Go Back</ButtonCustom>
                 <Typography align='center' variant='h4'>Add Users Manually</Typography>
-                <Divider />
                 <div className={classes.demo}>
                     <List dense={true}>
                     {listAddedUsers && listAddedUsers.map((user) => 

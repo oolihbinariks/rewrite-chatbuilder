@@ -95,13 +95,15 @@ const menuItem =[
 const Menu = ({classTrigger='menu'}) => {
     const classes = useStyle()
     let location = useLocation();
+    const comparePath = (path)=>path.split('/').filter((item)=>item!=='')[0]
+    console.log('location', location);
 
     return (
         <ul className={(classTrigger && (classTrigger === 'menuVertic'))? classes.menuVertic : classes.menu}> 
             {
                 menuItem.map((item) =>{
                     return(<li key={item.id} className="nav-item">
-                        <Link className={(item.url === location.pathname)? 'nav-link active' :'nav-link'} aria-current="page" to={item.url}>{item.title}</Link>
+                        <Link className={(comparePath(item.url) === comparePath(location.pathname))? 'nav-link active' :'nav-link'} aria-current="page" to={item.url}>{item.title}</Link>
                     </li>)
                 })
             } 

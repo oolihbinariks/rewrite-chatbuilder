@@ -1,7 +1,7 @@
 import React from 'react'
 import { DialogActions, DialogContent, DialogTitle, makeStyles} from '@material-ui/core';
 
-import { ButtonCustom } from '../../../../components/sharedComponents/Buttons/ButtonOutlined';
+import { ButtonCustom } from '../Buttons/ButtonOutlined';
 
 const useStyles = makeStyles((theme) => ({
     dialogAction:{
@@ -13,7 +13,7 @@ const ConfirmDel = ({onClose, deleteElemHandler}) => {
     const classes = useStyles();
     return (
         <>         
-            <DialogTitle id="form-dialog-title">Are you sure you want to delete the dialog step?</DialogTitle>
+            <DialogTitle id="form-dialog-title">Are you sure you want to delete that?</DialogTitle>
             <DialogContent>
                 <DialogActions className={classes.dialogAction}>
                     <ButtonCustom onClick={onClose} varianttrig='contained' variant='contained' size='small' color="primary">

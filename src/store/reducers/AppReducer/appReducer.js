@@ -1,13 +1,12 @@
-import { SET_ACTIVE_MENU_ITEM } from "../../actions/AppActions/appActions";
-
+import {TOGGLE_LOADING_APP} from '../../actions/AppActions/appActions'
 const initialState = {
-    activeMenuItem: null,
+    loading: false,
 }
 
 export const appReducer = (state = initialState, {type, payload}) => {
     switch (type) {
-        case SET_ACTIVE_MENU_ITEM:
-            return {...state, activeMenuItem: payload};
+        case TOGGLE_LOADING_APP:
+            return {...state, loading: !state.loading};
         default:
             return state;
     }

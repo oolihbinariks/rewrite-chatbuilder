@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { ButtonCustom } from '../../components/sharedComponents/Buttons/ButtonOutlined';
 
 //import components and feature from material ui
-import { Chip, Divider, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
+import { Box, Chip, Divider, Grid, makeStyles, Paper, Tab, Tabs, Typography } from '@material-ui/core';
 
 //import features and hooks for react-redux state management
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,12 +18,13 @@ import { getPrepareCampaign } from '../../store/selectors/campaignsSelectors';
 import { savePrepareCampaignSagaAction, setStepTypeAction } from '../../store/actions/CampaignsActions/campaignsActionCreators';
 
 //import constants
-import { CREATE_CAMPAIGN_ADD_USERS_ROUTE, CREATE_CAMPAIGN_ROUTE, CREATE_CAMP_FINISH_ROUTE } from '../../constants/routesUrl';
+import { CREATE_CAMPAIGN_ROUTE, CREATE_CAMP_FINISH_ROUTE } from '../../constants/routesUrl';
 
 //import other additional libraries
 import { useHistory } from 'react-router-dom';
 import { IconTick } from './IconTick';
 import { Stepper } from './Stepper';
+import AddAudience from './AddUsersAudience';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -90,11 +91,41 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
+  function a11yProps(index) {
+    return {
+      id: `full-width-tab-${index}`,
+      'aria-controls': `full-width-tabpanel-${index}`,
+    };
+  }
+  function TabPanel(props) {
+    const { children, value, index, ...other } = props;
+  
+    return (
+      <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`full-width-tabpanel-${index}`}
+        aria-labelledby={`full-width-tab-${index}`}
+        {...other}
+      >
+        {value === index && (
+          <Box p={3}>
+            <Typography>{children}</Typography>
+          </Box>
+        )}
+      </div>
+    );
+  }
+
 const CreateCampStep2 = () => {
     const classes = useStyles();
     let history = useHistory()
     const dispatch = useDispatch()
+    const [value, setValue] = React.useState(0);
 
+    const handleChange = (event, newValue) => {
+      setValue(newValue);
+    };
     //getting important data from Redux State
     const listAudience = useSelector(state => getAudiencesAll(state.audiences))
     console.log("listAudience", listAudience);
@@ -182,7 +213,21 @@ const CreateCampStep2 = () => {
             </div>
             <Stepper percent='66' />
             <Paper className={classes.stepThreePaper}>
-                <Typography className={classes.headerListAudiences} variant='h5' component='h2'>
+            <Tabs
+                value={value}
+                onChange={handleChange}
+                variant="scrollable"
+                scrollButtons="on"
+                indicatorColor="primary"
+                textColor="primary"
+                aria-label="scrollable force tabs example"
+            >
+                <Tab label="Select Existing Audiences"  {...a11yProps(0)} />
+                <Tab label="Upload file with audience"  {...a11yProps(1)} />
+                <Tab label="Add users(Manually)" {...a11yProps(2)} />
+            </Tabs>
+            <TabPanel value={value} index={0}>
+            <Typography className={classes.headerListAudiences} variant='h5' component='h2'>
                     Available audience sets (Select Existing)
                 </Typography>
                 <div className={classes.listAudience}>
@@ -215,33 +260,39 @@ const CreateCampStep2 = () => {
                                 }
                             })
                     }
+                    {
+                        uploadErrors?.file?.message && 
+                            <div style={{color:'red', fontSize:'0.875rem'}}>
+                                {uploadErrors?.file?.message}
+                            </div>
+                    }
                 </div>
-                <Divider className={classes.divider} />
-                    <Grid className={classes.groupOption} container justifyContent='space-between' alignItems='center'>
-                            <div>
-                                <input 
-                                    defaultValue={prepareCampaign.fileAudience} 
-                                    disabled={!!pickAudience} 
-                                    className={classes.inputFile} 
-                                    type='file' 
-                                    name='file' 
-                                    onChange={fileHandler} 
-                                />          
-                                {
-                                    uploadErrors?.file?.message && 
-                                        <div style={{color:'red', fontSize:'0.875rem'}}>
-                                            {uploadErrors?.file?.message}
-                                        </div>
-                                }
-                            </div>
-                        
-                            <Typography variant='h6' component='span'>or</Typography>
-                        
-                            <div className={classes.addUsersBtnBlock}>
-                                <Typography variant='h5' component='span'>Add users(Manually)</Typography>
-                                <ButtonCustom onClick={()=>history.push(history.push (CREATE_CAMPAIGN_ADD_USERS_ROUTE))} varianttrig='outlined' variant='outlined' className={classes.btnAddUsers}>Add user</ButtonCustom>
-                            </div>
-                    </Grid>
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+                <Typography align='center' variant='h4'>Upload file with users</Typography>
+                <Grid className={classes.groupOption} container justifyContent='space-between' alignItems='center'>
+                    <div>
+                        <input 
+                            defaultValue={prepareCampaign.fileAudience} 
+                            disabled={!!pickAudience} 
+                            className={classes.inputFile} 
+                            type='file' 
+                            name='file' 
+                            onChange={fileHandler} 
+                        />          
+                        {
+                            uploadErrors?.file?.message && 
+                                <div style={{color:'red', fontSize:'0.875rem'}}>
+                                    {uploadErrors?.file?.message}
+                                </div>
+                        }
+                    </div>
+                </Grid>
+            </TabPanel>
+            <TabPanel value={value} index={2}>
+                <AddAudience />
+            </TabPanel>
+                
                     <Divider className={classes.divider} />
                     <div>
                         <ButtonCustom style={{padding:'8px 80px'}} onClick={()=>saveData(CREATE_CAMPAIGN_ROUTE)} varianttrig='contained' variant='contained' color='secondary'>Back</ButtonCustom>

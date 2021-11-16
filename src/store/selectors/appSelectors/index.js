@@ -7,4 +7,4 @@
 //   (categories) =>categories,
 //   );
 
-export const getActiveMenuItem = (state) => (state.activeMenuItem)
+export const getLoadingApp = (state) => (state.app.loading)

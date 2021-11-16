@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { selectDeleteElementForQuestionAction, updateSetElementsForQuestionAction } from "../../../../store/actions/TemplatesActions/templatesActionCreators";
 import FormModal from "../../../../components/sharedComponents/Modals/FormModal";
-import FormConfirmDel from "./ConfirmDel";
+import FormConfirmDel from "../../../../components/sharedComponents/ConfirmDel/ConfirmDel";
 const useStyles = makeStyles((theme) => ({
     handleStyle: {
         width:'12px',
@@ -169,8 +169,8 @@ export const MessageNode = ({ id, data}) => {
           className={classes.handleStyle}
         />
         <FormModal open={open} onClose={handleClose}>
-            <FormConfirmDel onClose={handleClose} deleteElemHandler={deleteElemHandler}/>
-          </FormModal>
+          <FormConfirmDel onClose={handleClose} deleteElemHandler={deleteElemHandler}/>
+        </FormModal>
       </div>
     );
   };

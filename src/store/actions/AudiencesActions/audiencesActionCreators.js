@@ -1,7 +1,11 @@
-import { ADD_AUDIENCE, ADD_AUDIENCE_SAGA, ADD_USERS_AUDIENCE, ADD_USERS_AUDIENCE_SAGA, DELETE_AUDIENCE, DELETE_AUDIENCE_SAGA, DELETE_USERS_AUDIENCE, DELETE_USERS_AUDIENCE_SAGA, GET_ALL_AUDIENCES } from "./audiencesActions"
+import { ADD_AUDIENCE, ADD_AUDIENCE_SAGA, ADD_USERS_AUDIENCE, ADD_USERS_AUDIENCE_SAGA, DELETE_AUDIENCE, DELETE_AUDIENCE_SAGA, DELETE_USERS_AUDIENCE, DELETE_USERS_AUDIENCE_SAGA, GET_ALL_AUDIENCES, GET_ALL_AUDIENCES_SAGA } from "./audiencesActions"
 
-export const getAllAudiencesAction = () => ({
+export const getAllAudiencesAction = (data) => ({
     type: GET_ALL_AUDIENCES,
+    payload: data,
+})
+export const getAllAudiencesSagaAction = () => ({
+    type: GET_ALL_AUDIENCES_SAGA,
 })
 
 export const addAudienceAction = (audience) => ({

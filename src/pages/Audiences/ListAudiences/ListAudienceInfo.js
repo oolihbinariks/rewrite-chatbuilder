@@ -1,7 +1,6 @@
-import { Avatar, Chip, IconButton, makeStyles, Typography } from '@material-ui/core'
+import { Avatar, IconButton, makeStyles, Typography } from '@material-ui/core'
 import React from 'react'
 import { Link } from 'react-router-dom';
-import { AUDIENCE_ROUTE } from '../../../constants/routesUrl';
 const useStyles = makeStyles((theme) => ({
     avatar: {
         backgroundColor: theme.palette.secondary.main,
@@ -30,7 +29,7 @@ const ListAudienceInfo = ({audience}) => {
         <div>
             <div>
                 <Link className={'nonAnchor'} to={`audience/${audience.id}`}>
-                    <Typography variant='h6' component='h6'>{audience.name}</Typography>
+                    <Typography variant='h6' component='h6'>{audience.title}</Typography>
                 </Link>
                 <Typography variant='subtitle2' component='h6' >September 03 2021</Typography>
             </div>
@@ -39,7 +38,7 @@ const ListAudienceInfo = ({audience}) => {
                     <div>
                         <IconButton>
                             <Avatar aria-label="recipe" className={classes.avatar}>
-                                2
+                            {audience?.users?.length || 0}
                             </Avatar>
                         </IconButton>
                         <Typography variant='subtitle1' component='span'>users</Typography>

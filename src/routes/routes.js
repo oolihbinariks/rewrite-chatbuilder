@@ -5,7 +5,7 @@ import Templates from "../pages/Templates/Templates";
 import Audiences from "../pages/Audiences/Audiences";
 import Audience from "../pages/Audiences/Audience/Audience";
 import Settings from "../pages/Settings";
-import Auth from "../pages/Auth";
+import Auth from "../pages/Auth/Auth";
 import Home from "../pages/Home/Home";
 import AddAudience from "../pages/Audiences/Audience/AddAudience";
 import Template from "../pages/Templates/Template/Template";
