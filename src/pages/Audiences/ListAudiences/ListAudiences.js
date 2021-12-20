@@ -59,8 +59,9 @@ function Alert(props) {
 const ListAudiences = () => {
     const classes = useStyles();
     const dense = false;
-    const audiences = useSelector(state => getAudiencesAll(state.audiences))
+    const listAudiences = useSelector(state => getAudiencesAll(state.audiences))
     const loadingApp = useSelector(state => getLoadingApp(state))
+    const [audiences, setAudiences] = useState([]);
     const [open, setOpen] = useState(false);
     const [delAudId, setDelAudId] = useState(null);
     const delTrigger =(id)=>{
@@ -74,6 +75,9 @@ const ListAudiences = () => {
     useEffect(() => {
       dispatch(getAllAudiencesSagaAction())
     }, [])
+    useEffect(() => {
+      setAudiences(listAudiences)
+    }, [listAudiences])
     const handlerDeleteAudience = () => {
       dispatch(deleteAudienceSagaAction(delAudId))
       handleClose()

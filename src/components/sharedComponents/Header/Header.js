@@ -2,7 +2,7 @@ import React from 'react'
 import { HOME_ROUTE, LOGIN_ROUTE } from '../../../constants/routesUrl';
 import { Link, useHistory } from 'react-router-dom';
 import { getAuthToken } from '../../../store/selectors/authSelectors';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ButtonCustom } from '../Buttons/ButtonOutlined';
 import Menu from './Menu';
 import Logo from '../../../assets/images/chatbuilder_logo.png';
@@ -12,6 +12,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ClearIcon from '@material-ui/icons/Clear';
 import { makeStyles, SwipeableDrawer } from '@material-ui/core';
+import { authLogoutSagaAction } from '../../../store/actions/AuthActions/authActionCreators';
 const useStyle = makeStyles(theme => ({
     appBar:{
         zIndex:'1301',
@@ -82,6 +83,7 @@ const useStyle = makeStyles(theme => ({
 }))
 const Header = () => {
     const classes = useStyle()
+    const dispatch = useDispatch()
     const [open, setOpen] = React.useState(false);
 
     const handleDrawerOpen = () => {
@@ -91,11 +93,10 @@ const Header = () => {
     const handleDrawerClose = () => {
         setOpen(false);
     };
-    const isAuth = useSelector(state => getAuthToken(state))
+    const {accessToken:isAuth} = useSelector(state => getAuthToken(state))
     let history = useHistory();
     function logout() {
-        console.log("logout");
-        handleClick(HOME_ROUTE)
+        dispatch(authLogoutSagaAction())
     }
     function handleClick(to) {
         console.log(`historu=y to ${to}`);

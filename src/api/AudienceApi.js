@@ -1,9 +1,4 @@
-import axios from 'axios'
-
-const api = axios.create({
-    // baseURL: process.env.APP_URL
-    baseURL: 'http://localhost:8080'
-})
+import api from './Api'
 
 export const getAllAudiencesApi = async (url='/api/audience') => {
     try {

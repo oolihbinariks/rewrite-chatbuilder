@@ -1,7 +1,5 @@
-import { Redirect } from "react-router-dom";
 import { put, call, takeLatest, all } from "redux-saga/effects";
 import { addAudienceApi, deleteAudienceByIdApi, getAllAudiencesApi } from "../../../api/AudienceApi";
-import { AUDIENCES_ROUTE, CAMPAIGNS_ROUTE } from "../../../constants/routesUrl";
 import { toggleLoadingAppAction } from "../../actions/AppActions/appActionCreators";
 import { addAudienceAction, addUsersAudienceAction, deleteAudienceAction, deleteUserAudienceAction, getAllAudiencesAction } from "../../actions/AudiencesActions/audiencesActionCreators";
 import { ADD_AUDIENCE_SAGA, ADD_USERS_AUDIENCE_SAGA, DELETE_AUDIENCE_SAGA, DELETE_USERS_AUDIENCE_SAGA, GET_ALL_AUDIENCES_SAGA } from "../../actions/AudiencesActions/audiencesActions";
@@ -16,11 +14,9 @@ function* addAudiencesWorker({payload: {titleAudience}}){
         if (data) {
             yield put(addAudienceAction(data))
             yield put(toggleLoadingAppAction())
-            return(<Redirect to={CAMPAIGNS_ROUTE} />)
         } else {
             yield put(toggleLoadingAppAction())
         }
-        console.log('Delete Audience By Id', data);
     } catch (error) {
         let message;
         switch (error.status) {
@@ -79,8 +75,9 @@ function* deleteAudiencesWorker({payload: audienceId}){
         yield put(toggleLoadingAppAction())
         console.log('Delete data aud', data);
         if (data) {
-            console.log('redirect');
-            return(<Redirect to={CAMPAIGNS_ROUTE} />)
+            console.log('delete audience', data);
+            yield put(deleteAudienceAction(audienceId))
+            // return(<Redirect to={CAMPAIGNS_ROUTE} />)
         } else {
             
         }

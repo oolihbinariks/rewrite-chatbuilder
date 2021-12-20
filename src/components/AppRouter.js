@@ -12,8 +12,9 @@ const RouteWithLayout = ({component: Component, layout: Layout, ...rest})=>(
         <Layout><Component {...props}/></Layout>
     )} />
 )
+
 export const AppRouter =() =>{
-    const isAuth = useSelector(state => getAuthToken(state))
+    const {accessToken:isAuth} = useSelector(state => getAuthToken(state))
     console.log(`isauth ${isAuth}`);
     return (
         <Switch>
