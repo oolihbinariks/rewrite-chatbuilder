@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Avatar, IconButton, List, ListItem, ListItemSecondaryAction, makeStyles, Paper, Typography, } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
@@ -59,6 +59,7 @@ function Alert(props) {
 const ListAudiences = () => {
     const classes = useStyles();
     const dense = false;
+    // const listAudiences = useMemo(useSelector(state => getAudiencesAll(state.audiences)))
     const listAudiences = useSelector(state => getAudiencesAll(state.audiences))
     const loadingApp = useSelector(state => getLoadingApp(state))
     const [audiences, setAudiences] = useState([]);
@@ -73,7 +74,7 @@ const ListAudiences = () => {
     };
     const dispatch = useDispatch()
     useEffect(() => {
-      dispatch(getAllAudiencesSagaAction())
+        dispatch(getAllAudiencesSagaAction())
     }, [])
     useEffect(() => {
       setAudiences(listAudiences)

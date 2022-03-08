@@ -11,6 +11,7 @@ import { useParams } from 'react-router-dom';
 import { AddOptions } from './AddOptions';
 import { getStateRFInstObj, getStateSelectedDelElement, getTemplateById } from '../../../../store/selectors/templatesSelectors';
 import { v4 as uuidv4 } from 'uuid';
+import FormAddNodeCondition from './FormAddNodeCondition';
 
 const useStyles = makeStyles((theme) => ({
     dialogAction:{
@@ -25,7 +26,21 @@ const useStyles = makeStyles((theme) => ({
         width:'30%',
         padding:0,
         margin:0,
-    }
+    },
+    controlBranchesHead:{
+        display:'flex',
+        justifyContent:'space-between',
+        alignItems:'center',
+    },
+    controlBranchesContainer:{
+        border:`2px solid ${theme.palette.grey[200]}`,
+        padding:theme.spacing(1),
+    },
+    controlBranchesContent:{
+        display:'flex',
+        justifyContent:'space-between',
+        alignItems:'center',
+    },
   }));
 const responseType = [
     {
@@ -60,11 +75,15 @@ const FormAddNodeDialog = ({elements, currentObjectRF}) => {
     let {category, question } = useParams();
     const templateById = useSelector(state => getTemplateById(state.templates, category))
     const RFInstObj = useSelector(state => getStateRFInstObj(state.templates))
-    console.log("Form RFInstObj from redux:", RFInstObj);
+    // console.log("Form RFInstObj from redux:", RFInstObj);
     const [updatElemTrigger, setUpdatElemTrigger] = useState(false)
-    console.log("UPADATE  updatElemTrigger", updatElemTrigger);
+    const [showBranchForm, setShowBranchForm] = useState(false)
+    const addBranchForm = () =>{
+        setShowBranchForm(!showBranchForm)
+    }
+    // console.log("UPADATE  updatElemTrigger", updatElemTrigger);
     const updateElement = useSelector(state => getStateSelectedDelElement(state.templates))
-    console.log("UPADATE  updateElement", updateElement);
+    // console.log("UPADATE  updateElement", updateElement);
     useEffect(() => {
         if (updateElement) {
             setUpdatElemTrigger(true)
@@ -127,20 +146,40 @@ const FormAddNodeDialog = ({elements, currentObjectRF}) => {
                     return(element)
                 }
             })}))
+            reset({
+                node: 'node',
+                textMessage:'',
+            })
+    
+            dispatch(selectDeleteElementForQuestionAction(null))
+            setUpdatElemTrigger(false)        
+    
+            setOptions([])
         } else {
             dispatch(updateSetElementsForQuestionAction({categoryId: category, templateId:question, elements:[...RFInstObj.elements, newNode]}))
+            reset({
+                node: 'node',
+                textMessage:'',
+            })
+    
+            dispatch(selectDeleteElementForQuestionAction(null))
+            setUpdatElemTrigger(false)        
+    
+            setOptions([])
         }
+
         reset({
             node: 'node',
             textMessage:'',
         })
+
         dispatch(selectDeleteElementForQuestionAction(null))
         setUpdatElemTrigger(false)        
 
         setOptions([])
     };
     const saveDialog = ()=>{
-        console.log("Questions ADD node elements: elements =>:", elements);
+        // console.log("Questions ADD node elements: elements =>:", elements);
         dispatch(updateSetElementsForQuestionAction({categoryId: category, templateId:question, elements:RFInstObj.elements}))
     }
     
@@ -187,49 +226,87 @@ const cancelHandler = ()=>{
                         }
                     />
                     </div>
-                    <DialogContentText>
-                        Text Message
-                    </DialogContentText>
-                    <div>
-                    <Controller 
-                        name='textMessage'
-                        control={control}
-                        render={
-                            ({onChange, onBlur, value}) => (             
-                                <StyledInput
-                                    value={textMessageValue}
-                                    onChange={handletextMessageChange}
-                                    variant='outlined' 
-                                    label='Enter Category name' 
-                                    multiline
-                                    rows={4}    
-                                    type='text' 
-                                    error = {(errors?.textMessage) ? true : false}
-                                    helperText = {(errors?.textMessage?.message) ? errors.textMessage.message : ''}
-                                />      
-                            )
-                        }
-                    />
+                   
+                    {nodeValue && nodeValue!=='condition' &&
+                        <>
+                            <DialogContentText>
+                                Text Message
+                            </DialogContentText>
+                            <div>
+                            <Controller 
+                                name='textMessage'
+                                control={control}
+                                render={
+                                    ({onChange, onBlur, value}) => (             
+                                        <StyledInput
+                                            value={textMessageValue}
+                                            onChange={handletextMessageChange}
+                                            variant='outlined' 
+                                            label='Enter Category name' 
+                                            multiline
+                                            rows={4}    
+                                            type='text' 
+                                            error = {(errors?.textMessage) ? true : false}
+                                            helperText = {(errors?.textMessage?.message) ? errors.textMessage.message : ''}
+                                        />      
+                                    )
+                                }
+                            />
+                            </div>
+                        
+                    
                                   
-                    </div>
+                    
+                        <div>
+                            {nodeValue && nodeValue==='singleChoice' &&
+                            <AddOptions options={options} setOptions={setOptions} />}
+                        </div>
+                        
+                        <DialogActions className={classes.dialogAction}>
+                            <ButtonCustom
+                                onClick={cancelHandler} 
+                                varianttrig='contained'
+                                variant='contained' 
+                                size='small' 
+                                color="primary"
+                            >
+                                Cancel
+                            </ButtonCustom>
+                            <ButtonCustom varianttrig='contained' variant='contained' size='small' color="secondary" type='submit' >
+                                Save
+                            </ButtonCustom>
+                        </DialogActions>
+                    </>
+                    }
                     <div>
-                        {nodeValue && nodeValue==='singleChoice' &&
-                        <AddOptions options={options} setOptions={setOptions} />}
+                        {nodeValue && nodeValue==='condition' &&
+                        <>
+                            <div className={classes.controlBranchesHead}>
+                                <div>Branches total</div>
+                                <ButtonCustom
+                                    onClick={addBranchForm} 
+                                    varianttrig='contained'
+                                    variant='contained' 
+                                    size='small' 
+                                    color="secondary"
+                                >
+                                    Add Branch
+                                </ButtonCustom>
+                            </div>
+                            <div className={classes.controlBranchesContainer}>
+                                <div>Branch Name</div>
+                                <div className={classes.controlBranchesContent}>
+                                    <div>Number</div>
+                                    <div>Question content</div>
+                                </div>
+                                <div>Options</div>
+                            </div>
+                            {
+                                showBranchForm && <FormAddNodeCondition elements = {RFInstObj.elements}/>
+                            }
+                        </>
+                        }
                     </div>
-                    <DialogActions className={classes.dialogAction}>
-                        <ButtonCustom
-                            onClick={cancelHandler} 
-                            varianttrig='contained'
-                            variant='contained' 
-                            size='small' 
-                            color="primary"
-                        >
-                            Cancel
-                        </ButtonCustom>
-                        <ButtonCustom varianttrig='contained' variant='contained' size='small' color="secondary" type='submit' >
-                            Save
-                        </ButtonCustom>
-                    </DialogActions>
                     <DialogActions>
                         <h3>Save Dialog</h3>
                         <br/>

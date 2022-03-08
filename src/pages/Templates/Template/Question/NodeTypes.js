@@ -91,7 +91,7 @@ export const StartNode = () => {
     );
   };
 export const MessageNode = ({ id, data}) => {
-  console.log('NOde types data', data);
+  // console.log('NOde types data', data);
     const classes = useStyles();
     const [open, setOpen] = useState(false);
     const handleClose = () => {
@@ -124,7 +124,7 @@ export const MessageNode = ({ id, data}) => {
       setHoveredElementId(hoveredElement)
       
     }, [hoveredElement])
-    console.log("Node hoveredElementId", hoveredElementId);
+    // console.log("Node hoveredElementId", hoveredElementId);
     return (
       <div className={classes.customNodeStyles}>
         <div className={classes.nodeHeader}>
